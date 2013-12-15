@@ -1,0 +1,174 @@
+%% LTPlius.sty
+%% Copyright 2004, 2005, 2006, 2007 Laurynas Biveinis
+%
+% This work may be distributed and/or modified under the
+% conditions of the LaTeX Project Public License, either version 1.3
+% of this license or (at your option) any later version.
+% The latest version of this license is in
+% http://www.latex-project.org/lppl.txt
+% and version 1.3 or later is part of all distributions of LaTeX
+% version 2005/12/01 or later.
+%
+% This work has the LPPL maintenance status ‘maintained’.
+%
+% The Current Maintainer of this work is Laurynas Biveinis.
+%
+% This work consists of the file LTPlius.sty.
+
+% LTplius: bendri lietuviškų dokumentų nustatymai, nesantys
+% lietuviškame babel išplėtime.
+\NeedsTeXFormat{LaTeX2e}[1994/12/01]
+\ProvidesPackage{LTPlius}[2007/01/21 1.3.0 Lithuanian language
+additions]
+
+% Pakeitimai:
+% 2007.01.26 (1.3.0 versija)
+%    * Atnaujinta darbui su littex-20060928 lituanizacija.
+%    * Pašalintas URW šriftų tvarkymas.
+% 2006.07.24 (1.2.0 versija)
+%    * Pataisyta klaida L7x kabučių apraše
+%    * Paveikslėlių ir lentelių antraštėse nebededamas taškas.
+%    * Stilius licenzijuotas LPPL sąlygomis.
+% 2005.06.05
+%    * Pataisytos \grqq kabutės L7x koduotėje.
+%    * Taškas po skyriaus numerio dedamas skyriaus pavadinime ir turinyje,
+%      bet ne nuorodose į tą skyrių.
+%    * Palaikome ne tik L7x koduotę, bet ir kitas (T1).
+%    * Lietuviškai formatuojame teoremų aplinkas, aprašymus (description), 
+%      paveikslėlių antraštes.
+% 2005.06.13
+%    * Funkcionalumas iš indentfirst perkeltas čia.
+% 2005.07.14
+%    * Lietuviškai formatuojame lentelių antraštes.
+% 2005.07.29
+%    * Sudedame taškus po \paragraph ir \subparagraph antraščių.
+% 2006.03.17
+%    * Pataisome ir \glqq kabutes L7x koduotėje.
+
+% Keisime keletą babel parametrų
+\RequirePackage[lithuanian]{babel}
+
+% Ir pirmo paragrafo skyriuje pirma eilutė turi būti atitrauktos
+\let\@oldafterindentfalse\@afterindentfalse
+\def\@ltindent{\let\@afterindentfalse\@afterindenttrue%
+  \@afterindenttrue}
+\def\@noltindent{\let\@afterindentfalse\@oldafterindentfalse%
+  \@afterindentfalse}
+
+\@ltindent
+
+% Kadangi skaičių trupmeninės dalys atskiriamos kableliu,
+% po jo standartiškai dedamas tarpelis nepageidaujamas
+\RequirePackage{icomma}
+
+% Babel išplėtimai: non-french spacing ir lietuviškos kabutės
+
+\initiate@active@char{"}
+\@namedef{extraslithuanian}{%
+    \languageshorthands{lithuanian}}
+\expandafter\addto\csname extraslithuanian\endcsname{%
+    \bbl@activate{"}}
+
+% Non-french spacing
+\expandafter\addto\csname extraslithuanian\endcsname{%
+    \bbl@nonfrenchspacing}
+\expandafter\addto\csname noextraslithuanian\endcsname{%
+    \bbl@frenchspacing}
+\addto\noextraslithuanian{\bbl@deactivate{"}}
+
+% Išsaugome " simbolį kaip \dq
+\begingroup \catcode`\"12
+\def\x{\endgroup
+\def\dq{"}}
+\x
+
+% Teisingos lietuviškos kabutės pasiekiamos taip:
+% "` - atidarančios dvigubos kabutės
+% "' - uždarančios dvigubos kabutės
+\declare@shorthand{lithuanian}{"`}{\glqq{}}
+\declare@shorthand{lithuanian}{"'}{\grqq{}}
+
+% Taškai po skyrių, poskyrių ir kt. numerių turi būti antraštėse,
+% turinyje, bet ne nuorodose.  Modifikuojame keisdami vidinę 
+% LaTeX @sect komandą.
+\def\@sect#1#2#3#4#5#6[#7]#8{%
+  \ifnum #2>\c@secnumdepth
+    \let\@svsec\@empty
+  \else
+    \refstepcounter{#1}%
+       % Buvo: \protected@edef\@svsec{\@seccntformat{#1}\relax}%
+    \protected@edef\@svsec{\csname the#1\endcsname.\quad\relax}%
+  \fi
+  \@tempskipa #5\relax
+  \ifdim \@tempskipa>\z@
+    \begingroup
+      #6{%
+        \@hangfrom{\hskip #3\relax\@svsec}%
+          \interlinepenalty \@M #8\@@par}%
+    \endgroup
+    \csname #1mark\endcsname{#7}%
+    \addcontentsline{toc}{#1}{%
+      \ifnum #2>\c@secnumdepth \else
+           % Buvo: \protect\numberline{\csname the#1\endcsname}%
+        \protect\numberline{\csname the#1\endcsname.}%
+      \fi
+      #7}%
+  \else
+    \def\@svsechd{%
+      #6{\hskip #3\relax
+      \@svsec #8}%
+      \csname #1mark\endcsname{#7}%
+      \addcontentsline{toc}{#1}{%
+        \ifnum #2>\c@secnumdepth \else
+            % Buvo: \protect\numberline{\csname the#1\endcsname}%
+          \protect\numberline{\csname the#1\endcsname.}%
+        \fi
+        #7}}%
+  \fi
+  \@xsect{#5}}
+
+% Po paragrafo ir poparagrafio antraštės dedamas taškas.
+\newcommand{\@adddot}[1]{#1.}
+
+% Paragrafo antraštė atitraukiama kaip pastraipos pradžia.
+\renewcommand\paragraph{\@startsection{paragraph}{4}{\parindent}%
+  {3.25ex \@plus1ex \@minus.2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries\@adddot}}
+
+\renewcommand\subparagraph{\@startsection{subparagraph}{5}{\parindent}%
+  {3.25ex \@plus1ex \@minus .2ex}%
+  {-1em}%
+  {\normalfont\normalsize\bfseries\@adddot}}
+
+% Lietuviškai formatuojame teoremų antraštes --- pirmiausia eina
+% teoremos numeris, pavadinimas (jei yra), teoremos tipas ir taškas.
+\def\@begintheorem#1#2{\trivlist
+  % Buvo:   \item[\hskip \labelsep{\bfseries #1\ #2}]\itshape}
+  \item[\hskip \labelsep{\bfseries #2\ #1.}]\itshape}
+\def\@opargbegintheorem#1#2#3{\trivlist
+  % Buvo:   \item[\hskip \labelsep{\bfseries #1\ #2\ (#3)}]\itshape}
+      \item[\hskip \labelsep{\bfseries #2\ (#3)\ #1.}]\itshape}
+
+% Dedame tašką po aprašomo dalyko.
+\renewcommand*\descriptionlabel[1]{\hspace\labelsep
+                                \normalfont\bfseries #1.}
+
+% Teisingai formatuojame paveikslėlių antraštes.
+  % Buvo:   \def\fnum@figure{\figurename\nobreakspace\thefigure}
+\def\fnum@figure{\thefigure\nobreakspace\figurename}
+
+\long\def\@makecaption#1#2{%
+  \vskip\abovecaptionskip
+  \sbox\@tempboxa{#1 #2}%
+  \ifdim \wd\@tempboxa >\hsize
+    #1 #2\par
+  \else
+    \global \@minipagefalse
+    \hb@xt@\hsize{\hfil\box\@tempboxa\hfil}%
+  \fi
+  \vskip\belowcaptionskip}
+
+% Teisingai formatuojame lentelių antraštes.
+  % Buvo: \def\fnum@table{\tablename\nobreakspace\thetable}
+\def\fnum@table{\thetable\nobreakspace\tablename.}
