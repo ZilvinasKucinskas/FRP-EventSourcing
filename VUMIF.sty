@@ -247,9 +247,11 @@
 
 % Puslapiai numeruojami apačioje
 \def\ps@plain{%
+    \setcounter{page}{2}%
     \renewcommand{\@oddhead}{}%
     \renewcommand{\@evenhead}{}%
-    \renewcommand{\@evenfoot}{\hfill\textrm{\thepage}\hfill}%
+    \renewcommand{\@evenfoot}{\hfill\textrm{\thepage}%/hfill
+    }%
     \renewcommand{\@oddfoot}{\@evenfoot}%
 }
 
@@ -282,7 +284,7 @@
 
 % Literatūros sąrašą reikia pervadinti
 \addto\captionslithuanian{%
-    \renewcommand{\refname}{Preliminarus literat\={u}ros s\k{a}ra\v{s}as}%
+    \renewcommand{\refname}{Literat\={u}ros s\k{a}ra\v{s}as}%
 }
 
 % Literatūros sąrašą įtraukiame į turinį, nustatome jo stilių
