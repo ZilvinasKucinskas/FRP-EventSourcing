@@ -82,15 +82,11 @@
 
 \subsection{Darbo tikslai ir uždaviniai}
 
-    Darbo tikslas yra pritaikyti funkcinį-reaktyvų programavimą įvykių kaupimo sistemose.
+    Darbo tikslas yra išnagrinėti funkcinio-reaktyvaus programavimo pritaikymo galimybes įvykių kaupimo sistemose.
 
     Siekiant šio tikslo, turi būti išspręsti šie uždaviniai:
 
 \begin{itemize}
-        \item išnagrinėti įvykių kaupimo principu paremtų programų sistemų kūrimą ir šio
-                principo problemas;
-        \item išnagrinėti funkcinio-reaktyvaus programavimo principą ir
-            problemas, kurias šis principas sprendžia;
         \item įrodyti, kad funkcinį-reaktyvų programavimą įmanoma taikyti įvykių
             kaupimo sistemose;
         \item sukurti konkretizuotą kalbą (angl. domain specific language), apjungiančią funkcinio-reaktyvaus programavimo
@@ -107,9 +103,9 @@
         \item įvykiai - momentinių reikšmių kolekcijos arba laiko-reikšmės poros.
 \end{itemize}
 
-    Funkcinis-reaktyvus programavimas įgalina apsirašyti elgseną deklaratyviai naudojant imperatyvios programavimo kalbos struktūras \cite[p.1]{ElliottHudak97:Fran}. Elgsena ir įvykiai gali būti komponuojami kartu, išreikšti vienas per kitą. Funkcinis reaktyvus programavimas apibrėžia kaip signalai arba elgsena reaguoja į įvykius. \cite[p. 1]{Survey} Šį principą galima iliustruoti pavyzdžiu. Tarkime turime Excel lapą, kuriame trys laukai: darbuotojo pradirbtos valandos, valandinis užmokestis bei formulė, kuri paskaičiuoja konkretų darbuotojo atlyginimą. Darbuotojui pradirbus daugiau valandų, atnaujiname pradirbtų valandų skaičių. Kartu atsinaujina ir pačios formulės reikšmė, tai yra konkretus užmokestis pakinta. Šiuo atveju įvykus reikšmės atnaujinimo įvykiui, nuo jos priklausomos formulės taipogi atsinaujina arba tam tikras įvykis iššaukia elgseną sistemoje.
+    Funkcinis-reaktyvus programavimas įgalina apsirašyti elgseną deklaratyviai naudojant imperatyvios programavimo kalbos struktūras \cite[p.1]{ElliottHudak97:Fran}. Elgsena ir įvykiai gali būti komponuojami kartu, išreikšti vienas per kitą. Funkcinis reaktyvus programavimas apibrėžia kaip signalai arba elgsena reaguoja į įvykius. \cite[p. 1]{Survey} Šį principą galima iliustruoti pavyzdžiu. Tarkime turime Excel lapą, kuriame yra trys laukai: darbuotojo pradirbtos valandos, valandinis užmokestis bei formulė, kuri paskaičiuoja konkretų darbuotojo atlyginimą. Darbuotojui pradirbus daugiau valandų, atnaujinamas pradirbtų valandų skaičius. Kartu atsinaujina ir pačios formulės reikšmė, tai yra konkretus užmokestis pakinta. Šiuo atveju įvykus reikšmės atnaujinimo įvykiui, nuo jos priklausomos formulės taipogi atsinaujina arba tam tikras įvykis iššaukia elgseną sistemoje.
 
-    Įvykių kaupimo principo esmė – objektas yra atvaizduojamas kaip įvykių seka. Kaip pavyzdį tai galima parodyti remiantis banko sąskaita. Tarkime vartotojas, banko klientas, turi 100 litų sąskaitos balansą. Tarkime vartotojas nusipirko prekę už 20 litų, tada įnešė į savo sąskaitą 15 litų ir galiausiai nusipirko tam tikrą paslaugą už 30 litų. Akivaizdu, jog turint šių įvykių seką, galima atvaizduoti dabartinę objekto būseną - tai yra 65 litai vartotojo sąskaitoje. Įvykių kaupimo principas užtikrina, jog visi būsenos pasikeitimai yra saugomi įvykių žurnale kaip įvykų seka \cite{DDD:Vernon}. Tai įgalina ne tik daryti užklausas šiems įvykiams, bet ir naudoti įvykių žurnalą atkurti būseną bet kuriuo laiko momentu praeityje.
+    Įvykių kaupimo principo esmė – objektas yra atvaizduojamas kaip įvykių seka. Kaip pavyzdį tai galima parodyti remiantis banko sąskaita. Tarkime vartotojas, banko klientas, turi 100 litų sąskaitos balansą. Tarkime vartotojas nusipirko prekę už 20 litų, tada įnešė į savo sąskaitą 15 litų ir galiausiai nusipirko tam tikrą paslaugą už 30 litų. Akivaizdu, jog turint šią įvykių seką, galima atvaizduoti dabartinę objekto būseną - tai yra 65 litai vartotojo sąskaitoje. Įvykių kaupimo principas užtikrina, jog visi būsenos pasikeitimai yra saugomi įvykių žurnale kaip įvykų seka \cite{DDD:Vernon}. Įvykių kaupimo principui yra būdinga, jog įvykių negalimą ištrinti bei atnaujinti, duomenys yra nekeičiami, dėl to įvykių žurnalas yra sistemos gyvavimo istorija (tiesos šaltinis). Tačiau toks modelis turi ir trūkumų. Jis nėra pritaikytas patogiam užklausų rašymui. Iš įvykių srautų yra kuriamos projekcijos, skirtos konkretiems sistemoms poreikiams, pavyzdžiui: paieškai, klasifikacijai ar ataskaitų ruošimui.
 
     Pritaikius funkcinį-reaktyvų programavimą įvykių kaupimo principu paremtose sistemose būtų galima modeliuoti ne tik momentinius įvykius, tačiau turėti ir jų istoriją. Yra poreikis sukurti konkretizuotą kalbą (angl. domain specific language), kuri įgalintų paslėpti įvykių žurnalą (arba duomenų saugyklą). Pastarosios naudotojas galėtų orientuotis į pačią sprendžiamos srities problemą, nekreipdamas dėmesio į žemesnio lygio realizacijos detales. Šiuo atveju viename faile būtų galima deklaratyviai (ką kažkuri programos dalis turi daryti) apsirašyti elgseną, nutikus įvykiui, kartu su imperatyviomis(instrukcijos, kurios aprašo, kaip programos dalys atlieka savo užduotis) struktūromis.
 
@@ -149,7 +145,7 @@ val specificData = customerView(None, Some("Kucinskas")): Option[List[CustomerMo
 
     Šiuo atveju veiksmai peržiūrint duomenis yra sumaišomi kartu su veiksmais gaunant įvykius. Verta pastebėti, jog lokali duomenų saugykla nebuvo paminėta arba apibrėžta. Pastaroji gali būti sugeneruota bei valdoma automatiškai.
 
-    Antruoju pavyzdiniu atveju turimas vartotojo balanso(įplaukiančios/išplaukiančios lėšos) įvykių srautas ir norima gauti vartotojo, kurio asmens kodas yra "39008226547", einamosios savaitės sąskaitos balansą.
+    Antruoju pavyzdiniu atveju turimas vartotojo balanso(įplaukiančios/išplaukiančios lėšos) įvykių srautas ir norima gauti vartotojo, kurio asmens kodas yra \emph{39008226547}, einamosios savaitės sąskaitos balansą.
 
 \begin{lstlisting}
 val duration = 1.weeks
@@ -164,7 +160,7 @@ val notOlderThanOneWeek =
 val sum = notOlderThanOneWeek.toList.sum
 \end{lstlisting}
 
-    Šiuo atveju "event" kintamasis yra įvykių srauto monada(terminas vartojamas funkciniame programavime, kilęs iš kategorijų teorijos ir turi savas taisykles), o "filtered" kintamasis - duomenų saugyklos monada. Skirtingos monados tarpusavyje nesiderina, dėl to reikia išsiaiškinti - ar yra įmanoma ir kaip šias monadas suderinti. Pagrindinė problema - kaip suderinti įvykių srautus bei lokalią duomenų saugyklą ir gebėti tai aprašyti deklaratyviai.
+    Šiuo atveju \emph{event} kintamasis yra įvykių srauto monada (terminas vartojamas funkciniame programavime, kilęs iš kategorijų teorijos ir turi savas taisykles), o \emph{filtered} kintamasis - duomenų saugyklos monada. Bendruoju atveju skirtingos monados tarpusavyje nesiderina \cite{DBLP:conf/fp/KingW92}. Dėl to reikia išsiaiškinti - ar yra įmanoma ir kaip šias monadas suderinti.
 
 \subsection{Tyrimo metodika}
 
