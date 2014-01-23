@@ -6,6 +6,50 @@
 \usepackage[lithuanian]{babel}
 
 \usepackage{VUMIF}
+\usepackage{listings}
+
+% "define" Scala
+\lstdefinelanguage{scala}{
+  morekeywords={abstract,case,catch,class,def,%
+    do,else,extends,false,final,finally,%
+    for,if,implicit,import,match,mixin,%
+    new,null,object,override,package,%
+    private,protected,requires,return,sealed,%
+    super,this,throw,trait,true,try,%
+    type,val,var,while,with,yield},
+  otherkeywords={=>,<-,<\%,<:,>:,\#,@},
+  sensitive=true,
+  morecomment=[l]{//},
+  morecomment=[n]{/*}{*/},
+  morestring=[b]",
+  morestring=[b]',
+  morestring=[b]""
+}
+
+\usepackage{color}
+\definecolor{dkgreen}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+
+% Default settings for code listings
+\lstset{frame=tb,
+  language=scala,
+  aboveskip=3mm,
+  belowskip=3mm,
+  showstringspaces=false,
+  columns=flexible,
+  basicstyle={\small\ttfamily},
+  numbers=none,
+  numberstyle=\tiny\color{gray},
+  %keywordstyle=\color{blue},
+  %commentstyle=\color{dkgreen},
+  %stringstyle=\color{mauve},
+  frame=single,
+  breaklines=true,
+  breakatwhitespace=true
+  tabsize=3
+}
 
 % \usepackage[mathcsdepttitle]{VUMIF} % --- matematinės informatikos katedros
 %     titulinio puslapio formatavimas
@@ -21,7 +65,7 @@
 }
 
 \supervisor{Viačeslav Pozdniakov}
-%\reviewer{XXX}
+\reviewer{doc. dr. Rimantas Vaicekauskas}
 \date{Vilnius \\ 2013}
 
 \begin{document}
@@ -63,11 +107,64 @@
         \item įvykiai - momentinių reikšmių kolekcijos arba laiko-reikšmės poros.
 \end{itemize}
 
-    Funkcinis-reaktyvus programavimas įgalina apsirašyti elgseną deklaratyviai naudojant imperatyvios programavimo kalbos struktūras \cite[p.1]{ElliottHudak97:Fran}. Elgsena ir įvykiai gali būti komponuojami kartu, išreikšti vienas per kitą. Funkcinis reaktyvus programavimas apibrėžia kaip signalai arba elgsena reaguoja į įvykius. \cite[p. 1]{Survey}
+    Funkcinis-reaktyvus programavimas įgalina apsirašyti elgseną deklaratyviai naudojant imperatyvios programavimo kalbos struktūras \cite[p.1]{ElliottHudak97:Fran}. Elgsena ir įvykiai gali būti komponuojami kartu, išreikšti vienas per kitą. Funkcinis reaktyvus programavimas apibrėžia kaip signalai arba elgsena reaguoja į įvykius. \cite[p. 1]{Survey} Šį principą galima iliustruoti pavyzdžiu. Tarkime turime Excel lapą, kuriame trys laukai: darbuotojo pradirbtos valandos, valandinis užmokestis bei formulė, kuri paskaičiuoja konkretų darbuotojo atlyginimą. Darbuotojui pradirbus daugiau valandų, atnaujiname pradirbtų valandų skaičių. Kartu atsinaujina ir pačios formulės reikšmė, tai yra konkretus užmokestis pakinta. Šiuo atveju įvykus reikšmės atnaujinimo įvykiui, nuo jos priklausomos formulės taipogi atsinaujina arba tam tikras įvykis iššaukia elgseną sistemoje.
 
     Įvykių kaupimo principo esmė – objektas yra atvaizduojamas kaip įvykių seka. Kaip pavyzdį tai galima parodyti remiantis banko sąskaita. Tarkime vartotojas, banko klientas, turi 100 litų sąskaitos balansą. Tarkime vartotojas nusipirko prekę už 20 litų, tada įnešė į savo sąskaitą 15 litų ir galiausiai nusipirko tam tikrą paslaugą už 30 litų. Akivaizdu, jog turint šių įvykių seką, galima atvaizduoti dabartinę objekto būseną - tai yra 65 litai vartotojo sąskaitoje. Įvykių kaupimo principas užtikrina, jog visi būsenos pasikeitimai yra saugomi įvykių žurnale kaip įvykų seka \cite{DDD:Vernon}. Tai įgalina ne tik daryti užklausas šiems įvykiams, bet ir naudoti įvykių žurnalą atkurti būseną bet kuriuo laiko momentu praeityje.
 
     Pritaikius funkcinį-reaktyvų programavimą įvykių kaupimo principu paremtose sistemose būtų galima modeliuoti ne tik momentinius įvykius, tačiau turėti ir jų istoriją. Yra poreikis sukurti konkretizuotą kalbą (angl. domain specific language), kuri įgalintų paslėpti įvykių žurnalą (arba duomenų saugyklą). Pastarosios naudotojas galėtų orientuotis į pačią sprendžiamos srities problemą, nekreipdamas dėmesio į žemesnio lygio realizacijos detales. Šiuo atveju viename faile būtų galima deklaratyviai (ką kažkuri programos dalis turi daryti) apsirašyti elgseną, nutikus įvykiui, kartu su imperatyviomis(instrukcijos, kurios aprašo, kaip programos dalys atlieka savo užduotis) struktūromis.
+
+\subsection{Pritaikymo pavyzdys}
+
+    Tarkime turime domeno sritį - bankininkystė. Turime įvykių srautą - vartotojų sukūrimas. Naudojant įsivaizduojamą Scala API galima sukurti vartotojų paieškos puslapį pagal vardą ir pavardę.
+
+\begin{lstlisting}
+// stream model
+case class CustomerCreate (val name: String, val surname: String, val personalNum: String)
+
+val es = EventSourceConnection(url)
+val createStream = Stream(es, "customerCreate")
+
+class case CustomerModel(val name: String, val surname: String, val personalNum: String)  extends ViewableModel
+
+trait CustomerArgModel extends Arg2Model[String,String]{
+  val name: Option[String]
+  val surname: Option[String]
+}
+
+//args are passed on form view/post
+val customerView = View(args: CustomerArgModel).foldLeft(
+  (acc,event) => event match {
+    case CustomerCreate(name, surname, personalNum) =>
+      for {
+        newName <- name
+        newSurname <- surname
+        newPersNum <- personalNum
+        if (args.name == name && args.surname == surname)
+      } yield CustomerModel(newName, newSur, newPersNum)
+  }
+)
+// getting data for all Kucinskai
+val specificData = customerView(None, Some("Kucinskas")): Option[List[CustomerModel]]
+\end{lstlisting}
+
+    Šiuo atveju veiksmai peržiūrint duomenis yra sumaišomi kartu su veiksmais gaunant įvykius. Verta pastebėti, jog lokali duomenų saugykla nebuvo paminėta arba apibrėžta. Pastaroji gali būti sugeneruota bei valdoma automatiškai.
+
+    Antruoju pavyzdiniu atveju turimas vartotojo balanso(įplaukiančios/išplaukiančios lėšos) įvykių srautas ir norima gauti vartotojo, kurio asmens kodas yra "39008226547", einamosios savaitės sąskaitos balansą.
+
+\begin{lstlisting}
+val duration = 1.weeks
+val personalNum = "39008226547"
+val balanceStream = Stream(es, "customerBalance")
+val notOlderThanOneWeek =
+    for {
+        event <- balanceStream
+        filtered <- event.filter(_.personalNum == personalNum
+            && (DateTime.now - _.timeStamp) >= duration)
+    } yield filtered
+val sum = notOlderThanOneWeek.toList.sum
+\end{lstlisting}
+
+    Šiuo atveju "event" kintamasis yra įvykių srauto monada(terminas vartojamas funkciniame programavime, kilęs iš kategorijų teorijos ir turi savas taisykles), o "filtered" kintamasis - duomenų saugyklos monada. Skirtingos monados tarpusavyje nesiderina, dėl to reikia išsiaiškinti - ar yra įmanoma ir kaip šias monadas suderinti. Pagrindinė problema - kaip suderinti įvykių srautus bei lokalią duomenų saugyklą ir gebėti tai aprašyti deklaratyviai.
 
 \subsection{Tyrimo metodika}
 
