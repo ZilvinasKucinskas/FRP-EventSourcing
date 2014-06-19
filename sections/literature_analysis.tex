@@ -1,0 +1,84 @@
+\subsection{Funkcinis-reaktyvus programavimas}
+
+	* REIKIA STRAIPSNIU!!!
+
+\subsection{Įvykių kaupimas}
+
+\subsubsection{Iš bakalauro darbo}
+
+Įvykių kaupimo principo esmė – objektas yra atvaizduojamas kaip įvykių seka. Kaip pavyzdį tai galima puikiai parodyti remiantis banko sąskaita. Tarkime vartotojas, banko klientas, turi 100 litų sąskaitos balansą. CRUD principu paremtos architektūros atveju, kiekvieną kartą kai įvyksta pasikeitimas, tai yra klientas ką nors nusiperka arba į sąskaitą įneša daugiau lėšų, balanso reikšmė pakeičiama, o senoji tiesiog pamirštama. Taigi po kurio laiko vartotojo balansas gali būti, tarkime, 65 litai. Tai yra gana paprasta, tačiau prarandama dalis informacijos. Pritaikius įvykių kaupimą, kiekvienas vartotojo atliktas veiksmas yra išsaugomas kaip įvykis. Tarkime vartotojas nusipirko prekę už 20 litų, tada įnešė į savo sąskaitą 15 litų ir galiausiai nusipirko tam tikrą paslaugą už 30 litų. Akivaizdu, jog turint šių įvykių seką, galima atvaizduoti dabartinę objekto būseną.
+Šis sprendimas iš pirmo žvilgsnio gali atrodyti lėtas, tačiau daugeliu atvejų jis yra daug greitesnis nei standartiškai naudojant reliacinę duomenų bazę. Verta paminėti, jog įvykiai reprezentuoja tam tikrą būsenos pasikeitimą bėgant laikui, todėl jie nėra atnaujinami arba ištrinami. Vieninteliai galimi veiksmai yra įvykių skaitymas bei rašymas, todėl tai įgalina naudoti asinchroninius pranešimus. Esant dideliam įvykių srautui, yra galimybė susidurti su našumo problema, nes objekto būseną teks atkurti iš daugybės įvykių.
+
+\subsubsection{Terminas}
+
+Kartais verslui svarbu fiksuoti objekto pasikeitimus domeno modelyje\footnote{http://en.wikipedia.org/wiki/Domain\_model}. Šiuos pasikeitimus galima stebėti skirtingais būdais. Įprastai yra pasirenkama stebėti kai esybė\footnote{http://en.wikipedia.org/wiki/Entity} yra:
+
+\begin{itemize}
+
+	\item sukurta,
+
+	\item paskutinį kartą modifikuota
+
+	\item bei kas atliko modifikaciją.
+
+\end{itemize}
+
+Tačiau šis būdas nepateikia jokios informacijos apie vienkartinius pasikeitimus.
+
+Atsiradus poreikiu stebėti pasikeitimus detaliau, verslas reikalauja dar daugiau metaduomenenų\footnote{http://en.wikipedia.org/wiki/Metadata}, ko pasekoje tokie faktai kaip individualios operacijos laiko tekmėje bei jų įvykdymo laikas tampa svarbūs. Šie poreikiai verčia įvesti audito žurnalą fiksuoti labai tikslias panaudojimo atvejų metrikas, tačiau pastarasis būdas turi apribojimų. Jis gali atskleisti dalį informacijos apie tai kas nutiko sistemoje, leisti rasti bei ištaisyti dalį riktų bei klaidų programinėje įrangoje, bet audito žurnalas neleidžia patikrinti domeno objekto būsenos prieš ir po tam tikrų pasikeitimų. O jeigu būtų galima išgauti daugiau informacijos iš pasikeitimų stebėjimo?
+
+Visi programinės įrangos kūrėjai susiduria su labai tiksliu pasikeitimų stebėjimu. Įprastas ir populiarus pavyzdys yra išeities kodo saugyklos, tokios kaip CVS\footnote{http://www.nongnu.org/cvs/}, Subversion\footnote{http://subversion.apache.org/}, Git\footnote{http://git-scm.com/} arba Mercurial\footnote{http://mercurial.selenic.com/}. Visos šios pataisų valdymo sistemos leidžia stebėti pirminių failų pasikeitimus. Įrankiai leidžia peržiūrėti išeities kodo artefaktus nuo pačios pirmosios pataisos iki paskutinės. Kai visi išeities failai yra nusiunčiami į pataisų kontrolės sistemą, ši gali stebėti pasikeitimus viso programinės įrangos kūrimo gyvavimo ciklo metu.
+
+Jeigu šis principas būtų pritaikytas vienai esybei, tada vienam agregatui\footnote{http://martinfowler.com/bliki/DDD\_Aggregate.html} bei galiausiai kiekvienam modelio agregatui, galima suprasti kokią naudą atneša sistemos objektų pasikeitimų stebėjimas:
+
+\begin{itemize}
+
+	\item Kas būtent nutiko modelyje, jog agregato egzempliorius buvo sukurtas?
+
+	\item Kas nutiko agregato egzemplioriui bėgant laikui? (Operacijų požiūriu)
+
+\end{itemize}
+
+Turint visų atliktų operacijų istoriją, galima palaikyti laikinus modelius. Toks kaitos stebėjimas yra įvykių kaupimo principas. 
+
+\subsubsection{Įvykių kaupimo privalumai ir trūkumai}
+
+\subsubsection{Įvykių srautas}
+
+\subsubsection{Įvykių kaupimas funkciniame programavime}
+
+ale \cite{vernon2013implementing}.
+
+kas yra ivykiu kaupimas?
+
+Ivykiu srautas? A + ES
+
+Kokiais budais galima modeliuoti? event store
+
+Ivykiu kaupimas funkcinese kalbose.
+
+\subsection{Monados}
+
+kas yra monada?
+
+taisykles?
+
+\subsection{Išvados}
+
+Literatūros analizės metu remiantis kitų autorių patirtimi:
+
+\begin{itemize}
+
+\item išnagrinėtas funkcinis-reaktyvus programavimas,
+
+\item išnagrinėtas įvykių kaupimo principas,
+
+\item išnagrinėti įvykių srautai,
+
+\item susipažinta su įvykių kaupimu funkciniame programavime,
+
+\item susipažinta su monadomis,
+
+\item įvaldyta sąvokų sistema, susijusi su nagrinėjama tematika.
+
+\end{itemize}

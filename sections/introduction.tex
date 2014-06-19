@@ -1,0 +1,95 @@
+\subsection{Tyrimo objektas}
+
+    Tyrimo objektas yra funkcinio-reaktyvaus programavimo bei įvykių kaupimo principai.
+
+\subsection{Darbo tikslai ir uždaviniai}
+
+    Darbo tikslas yra išnagrinėti funkcinio-reaktyvaus programavimo pritaikymo galimybes įvykių kaupimo sistemose.
+
+    Siekiant šio tikslo, turi būti išspręsti šie uždaviniai:
+
+\begin{itemize}
+        \item įrodyti, kad funkcinį-reaktyvų programavimą įmanoma taikyti įvykių
+            kaupimo sistemose;
+        \item sukurti konkretizuotą kalbą (angl. domain specific language), apjungiančią funkcinio-reaktyvaus programavimo
+            bei įvykių kaupimo principus;
+        \item aprašyti konkretizuotuos kalbos kūrimo metodiką, apibrėžti gautų rezultatų apribojimus, suformuluoti iškilusias problemas bei paaiškinti jų priežastis.
+\end{itemize}
+
+\subsection{Tyrimo aktualumas}
+
+    Funkcinis reaktyvus programavimas integruoja laiko tėkmę bei sudėtinius įvykius į funkcinį programavimą. Šis principas suteikia elegantišką būdą išreikšti skaičiavimus interaktyvių animacijų, robotikos, kompiuterinio vaizdavimo, vartotojo sąsajos ir modeliavimo srityse \cite[p. 4]{ELM:FRP}. Pagrindinės funkcinio reaktyvaus programavimo sąvokos:
+
+\begin{itemize}
+        \item signalai arba elgsena - reikšmės, besikeičiančios bėgant laikui;
+        \item įvykiai - momentinių reikšmių kolekcijos arba laiko-reikšmės poros.
+\end{itemize}
+
+    Funkcinis-reaktyvus programavimas įgalina apsirašyti elgseną deklaratyviai naudojant imperatyvios programavimo kalbos struktūras \cite[p.1]{ElliottHudak97:Fran}. Elgsena ir įvykiai gali būti komponuojami kartu, išreikšti vienas per kitą. Funkcinis reaktyvus programavimas apibrėžia kaip signalai arba elgsena reaguoja į įvykius. \cite[p. 1]{Survey} Šį principą galima iliustruoti pavyzdžiu. Tarkime turime Excel lapą, kuriame yra trys laukai: darbuotojo pradirbtos valandos, valandinis užmokestis bei formulė, kuri paskaičiuoja konkretų darbuotojo atlyginimą. Darbuotojui pradirbus daugiau valandų, atnaujinamas pradirbtų valandų skaičius. Kartu atsinaujina ir pačios formulės reikšmė, tai yra konkretus užmokestis pakinta. Šiuo atveju įvykus reikšmės atnaujinimo įvykiui, nuo jos priklausomos formulės taipogi atsinaujina arba tam tikras įvykis iššaukia elgseną sistemoje.
+
+    Įvykių kaupimo principo esmė – objektas yra atvaizduojamas kaip įvykių seka. Kaip pavyzdį tai galima parodyti remiantis banko sąskaita. Tarkime vartotojas, banko klientas, turi 100 litų sąskaitos balansą. Tarkime vartotojas nusipirko prekę už 20 litų, tada įnešė į savo sąskaitą 15 litų ir galiausiai nusipirko tam tikrą paslaugą už 30 litų. Akivaizdu, jog turint šią įvykių seką, galima atvaizduoti dabartinę objekto būseną - tai yra 65 litai vartotojo sąskaitoje. Įvykių kaupimo principas užtikrina, jog visi būsenos pasikeitimai yra saugomi įvykių žurnale kaip įvykų seka \cite{DDD:Vernon}. Įvykių kaupimo principui yra būdinga, jog įvykių negalimą ištrinti bei atnaujinti, duomenys yra nekeičiami, dėl to įvykių žurnalas yra sistemos gyvavimo istorija (tiesos šaltinis). Tačiau toks modelis turi ir trūkumų. Jis nėra pritaikytas patogiam užklausų rašymui. Iš įvykių srautų yra kuriamos projekcijos, skirtos konkretiems sistemoms poreikiams, pavyzdžiui: paieškai, klasifikacijai ar ataskaitų ruošimui.
+
+    Pritaikius funkcinį-reaktyvų programavimą įvykių kaupimo principu paremtose sistemose būtų galima modeliuoti ne tik momentinius įvykius, tačiau turėti ir jų istoriją. Yra poreikis sukurti konkretizuotą kalbą (angl. domain specific language), kuri įgalintų paslėpti įvykių žurnalą (arba duomenų saugyklą). Pastarosios naudotojas galėtų orientuotis į pačią sprendžiamos srities problemą, nekreipdamas dėmesio į žemesnio lygio realizacijos detales. Šiuo atveju viename faile būtų galima deklaratyviai (ką kažkuri programos dalis turi daryti) apsirašyti elgseną, nutikus įvykiui, kartu su imperatyviomis(instrukcijos, kurios aprašo, kaip programos dalys atlieka savo užduotis) struktūromis.
+
+\subsection{Pritaikymo pavyzdys}
+
+    Tarkime turime domeno sritį - bankininkystė. Turime įvykių srautą - vartotojų sukūrimas. Naudojant įsivaizduojamą Scala API galima sukurti vartotojų paieškos puslapį pagal vardą ir pavardę.
+
+\begin{lstlisting}
+// stream model
+case class CustomerCreate (val name: String, val surname: String, val personalNum: String)
+
+val es = EventSourceConnection(url)
+val createStream = Stream(es, "customerCreate")
+
+class case CustomerModel(val name: String, val surname: String, val personalNum: String)  extends ViewableModel
+
+trait CustomerArgModel extends Arg2Model[String,String]{
+  val name: Option[String]
+  val surname: Option[String]
+}
+
+//args are passed on form view/post
+val customerView = View(args: CustomerArgModel).foldLeft(
+  (acc,event) => event match {
+    case CustomerCreate(name, surname, personalNum) =>
+      for {
+        newName <- name
+        newSurname <- surname
+        newPersNum <- personalNum
+        if (args.name == name && args.surname == surname)
+      } yield CustomerModel(newName, newSur, newPersNum)
+  }
+)
+// getting data for all Kucinskai
+val specificData = customerView(None, Some("Kucinskas")): Option[List[CustomerModel]]
+\end{lstlisting}
+
+    Šiuo atveju veiksmai peržiūrint duomenis yra sumaišomi kartu su veiksmais gaunant įvykius. Verta pastebėti, jog lokali duomenų saugykla nebuvo paminėta arba apibrėžta. Pastaroji gali būti sugeneruota bei valdoma automatiškai.
+
+    Antruoju pavyzdiniu atveju turimas vartotojo balanso(įplaukiančios/išplaukiančios lėšos) įvykių srautas ir norima gauti vartotojo, kurio asmens kodas yra \emph{39008226547}, einamosios savaitės sąskaitos balansą.
+
+\begin{lstlisting}
+val duration = 1.weeks
+val personalNum = "39008226547"
+val balanceStream = Stream(es, "customerBalance")
+val notOlderThanOneWeek =
+    for {
+        event <- balanceStream
+        filtered <- event.filter(_.personalNum == personalNum
+            && (DateTime.now - _.timeStamp) >= duration)
+    } yield filtered
+val sum = notOlderThanOneWeek.toList.sum
+\end{lstlisting}
+
+    Šiuo atveju \emph{event} kintamasis yra įvykių srauto monada (terminas vartojamas funkciniame programavime, kilęs iš kategorijų teorijos ir turi savas taisykles), o \emph{filtered} kintamasis - duomenų saugyklos monada. Bendruoju atveju skirtingos monados tarpusavyje nesiderina \cite{DBLP:conf/fp/KingW92}. Dėl to reikia išsiaiškinti - ar yra įmanoma ir kaip šias monadas suderinti.
+
+\subsection{Tyrimo metodika}
+
+    Darbo analitinėje dalyje bus naudojami tradiciniai bibliotekinio tyrimo metodai. Darbo tikslui pasiekti tiriamojoje dalyje bus pasirinkta konkreti funkcinė programavimo kalba (pvz.: Haskell, Scala) bei aprašoma kūrimo metodika.
+
+    Papildomai I semestro metu ketinama užbaigti Erik Meijer, Martin Odersky, Roland Kuhn dėstomą reaktyvaus programavimo kursą (Coursera). Esant galimybėms žadama apsilankyti į funkcinį programavimą orientuotose konferencijose Scala Days (http://scaladays.org/), Scalar (http://scalar-conf.com/) ar kitose.
+
+\subsection{Laukiami rezultatai}
+
+    Magistrinio darbo metu planuojama išnagrinėti funkcinio-reaktyvaus programavimo ir įvykio kaupimo principus, įrodyti, jog šie principai gali būti panaudoti kartu bei suderinti, sukurti konkretizuotą kalbą (angl. domain specific language), apjungiančią šiuos principus, bei aprašyti kūrimo eigos metodiką, apibrėžti gautus rezultatus, suformuluoti apribojimus, iškilusias problemas bei paaiškinti jų priežastis.
