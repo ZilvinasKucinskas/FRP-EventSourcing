@@ -34,7 +34,113 @@ Pagrindinės FRP sąvokos yra:
 
 FRP pasiekia reaktyvumą naudodamas konstrukcijas, kurios tiksliai apibrėžia kaip signalai arba elgsena pasikeičia reaguodami į įvykius. Tai yra pagrindinis būdas išreiškiant bei realizuojant elgseną. Kitu būdu, elgsena gali būti laiko semantinės funkcijos\footnote{http://msdl.cs.mcgill.ca/people/tfeng/docs/as/node5.html}, kuriose laikas yra pakeičiamas kilus įvykiui.
 
-\subsubsection{Semantika}
+\subsubsection{Sąvybės}
+
+Anot anksčiausios funkcinio-reaktyvaus programavimo formuluotės \cite{ElliottHudak97:Fran}, pagrindinės sąvybės, kuriomis pasižymi FRP:
+
+\begin{itemize}
+
+	\item elgsenos arba singalų modeliavimas bėgant laikui,
+
+	\item įvykių, kurie turi baigtinį skaičių atsitikimų daugelyje laiko taškų, modeliavimas,
+
+	\item perjungimas (angl. switching) - sistema gali pasikeisti dėl atsitikusių įvykių,
+
+	\item analizės detalių, tokių kaip reaktyvaus modelio įvykių ėmimo dažnis, atskyrimas.
+
+\end{itemize}
+
+\subsubsection{Įvykių srautas}
+
+Pagal \cite{Bass:2007:Mythbusters}, įvykių srautas yra eilė pagal laiką surikiuotų įvykių, pavyzdžiui akcijų rinkos srautas.
+
+Įvykių srautas kaip duomenų srauto tipas formaliai atrodo kaip pora (s, t), kur s yra seka surikiuotų sąrašo įvykių, o t yra seka laiko intervalų ir kiekvienas intervalas yra netuščias.
+
+Tokio duomenų srauto pavyzdžiai gali būti:
+
+\begin{itemize}
+
+	\item akcijų kursas,
+
+	\item paspaudimų srautas,
+
+	\item tinklo srautas,
+
+	\item GPS\footnote{http://en.wikipedia.org/wiki/Global\_Positioning\_System} duomenys.
+
+\end{itemize}
+
+Įvykių srauto apdorojimas pagal atsitikimo laiką turi privalumų:
+
+\begin{itemize}
+
+	\item įvykių apdorojimo algoritmai naudoja mažai atminties, nes jiems nereikia prisiminti daug įvykių;
+
+	\item algoritmai gali būti labai greiti;
+
+	\item gavus įvykį, skaičiavimai atliekami iškart, todėl galima perduoti rezultatą kitam skaičiavimui ir pamiršti įvykį.
+
+\end{itemize}
+
+Įvykių srauto apdorojimas labiau akcentuoja didelio našumo duomenų gavimą ir matematinių algoritmų pritaikymą įvykių duomenims. Taip pat įvykių srautai įprastai pritaikomi konkrečiai sistemai ar organizacijai.
+
+\subsubsection{Įvykių srautas funkciniame programavime}
+
+Vietoje įvykių srauto, galima naudoti klausytojo projektavimo šabloną \cite{WhiteboardPattern}, tačiau ilgame programinės įrangos kūrimo gyvavimo cikle įvykių srauto naudojimas palengvina kai kuriuos dalykus. Pavyzdžiui, imperatyvaus programavimo atžvilgiu, viename metode turime klausytoją, kuris reaguoją į situaciją /textit{A}, tačiau iškilus situacijai /textit{B}, šis klausytojas yra pašalinamas. Šiuo atveju programinis kodas, kuris valdo klausytojo gyvavimo ciklą yra įsipynęs keliose skirtingose kodo vietose, ko pasekoje tai reiškia, jog yra sunkiau palaikyti, stebėti, keisti bei suprasti šias vietas. Abstrahuojant klausytojų gyvavimo ciklo valdymo idėją tampa lengviau programuoti pagal tai kas turėtų nutikti, o ne pagal tai, ką kompiuteris turėtų daryti toliau. Tačiau turbūt didesnis įvykių srauto pranašumas yra tai, jog pastarasis gali būti transformuojamas ir komponuojamas. Toliau bus aprašomi operacijos arba veiksmai bei sutrumpinti išeities kodo pavyzdžiai, kuriuos galima atlikti su įvykių srautu remiantis Reactive Web\footnote{http://scalareactive.org} karkasu, skirtu Scala\footnote{http://www.scala-lang.org} programavimo kalbai.
+
+Pirmas veiksmas - įvykio srauto sukūrimas. Jis pavaizduotas \ref{creation} kodo pavyzdyje.  Pirmiausia sukuriamas įvykių šaltinis, kuris po to priskiriamas įvykių srautui.
+
+\begin{lstlisting}[caption=- įvykių srauto sukūrimas, label=creation]
+	val eventSource = new EventSource[String]{}
+	scheduleTask(10000) {
+		eventSource.fire("Event after 10 seconds")
+	}
+
+	val eventStream: EventStream[String] = eventSource
+\end{lstlisting}
+
+Taip pat \textit{EventSource} (įvykių šaltinis) turi naudingą poklasį \textit{Timer} (laikrodis). Jo realizacija pavaizduota \ref{timer} kodo pavyzdyje. Šis sukuria tiksėjimo įvykius duotu laiko intervalu.
+
+\begin{lstlisting}[caption=- įvykių srauto sukūrimas, label=timer]
+	val timer = new Timer(0, 2000, {t =>  t >= 32000})
+
+	for(t <- timer)
+    	yield "timer: " + t.toString
+\end{lstlisting}
+
+Įvykių srautas valdo kolekciją klausytojų, tačiau konceptualiai reikėtų mąstyti kitaip. Klausytojo pridėjimas iš tikrųjų reiškia funkcijos iškvietimą kiekvienam kilusiui įvykiui, kitais žodžiais kiekvienam įvykių srauto įvykiui. Lygiai taip pat kaip Scala programavimo kalboje norint įvykdyti funkciją kiekvienai kolekcijos reikšmei yra iškviečiama \textit{foreach} funkcija. Tačiau įvykių srauto atveju, \textit{foreach} grąžina rezultatą akimirksniu, o funkcija yra išsaugoma ir vėliau įvykdoma kai tik gaunamas koks nors įvykis. Šio atvejo praktinis variantas pademonstruotas \ref{foreach} kodo pavyzdyje.
+
+\begin{lstlisting}[caption=- klausytojų pridėjimas, label=foreach]
+	val eventSource = new EventSource[String] {}
+	  
+	// The following is syntactic sugar for
+	// eventSource.foreach(event => alert("You fired: '" + event + "'"))
+	for(event <- eventSource) {
+	 	alert("You fired: '" + event + "'")
+	}
+
+\end{lstlisting}
+
+Rinkinys transformacijų metodų įvykių srautą padaro labai universaliu. Šios transformacijos grąžina modifikuotą įvykių srautą. Transformacijas galima atlikti viena po kitos. Tai primena transformacijas galimas su Scala kolekcijomis, pavyzdžiui \ref{collectionTransformation} kodo pavyzdyje. Kai tik originalus įvykių srautas gauna įvykį, transformuotas įvykių srautas gauna savo įvykį pritaikant klausytojo funkciją.
+
+\begin{lstlisting}[caption=- kolekcijos transformacijos, label=collectionTransformation]
+	List(1,2,3).map(_ * 10).filter(_ < 25)
+\end{lstlisting}
+
+Jeigu įvykių srautas gauna labai daug įvykių, tačiau aktualūs yra tik dalis jų, galima naudoti filtravimą, tai yra \textit{filter} metodą. Tai demonstruojama \ref{filter} kodo pavyzdyje. Čia kiekvienam įvykiui yra pritaikomas predikatas. Jeigu jis įvertinimas kaip teisingas arba kitaip \textit{true}, įvykis yra gaunamas transformuotame įvykių sraute.
+
+\begin{lstlisting}[caption=- įvykių srauto filtravimas, label=filter]
+	val eventSource = new EventSource[String] {}
+	eventSource.filter(_.length < 5)
+\end{lstlisting}
+
+Kitas esminis kolekcijų metodas yra \textit{map}. Jis leidžia transformuoti kolekciją pritaikant tam tikrą funkciją kiekvienam kolekcijos elementui. Pritaikius yra grąžinama nauja modifikuota kolekcija. Lygiai taip pat šis metodas gali būti pritaikytas įvykių srautui. Šis atvejis demonstruojamas \ref{map} kodo pavyzdyje. 
+
+\begin{lstlisting}[caption=- įvykių visiškas transformavimas, label=map]
+	val eventSource = new EventSource[String] {}
+	eventSource.map(_.reverse)
+\end{lstlisting}
+
 
 \subsection{Įvykių kaupimas}
 
@@ -93,40 +199,6 @@ Kaip saugojimo mechanizmas, įvykių kaupimas stipriai skiriasi ir pakeičia ORM
 
 Įvykių kaupimas verčia kitaip mąstyti apie domeno modelį. Įvykių istorija gali padėti surasti bei ištaisyti sistemos defektus bei klaidas. Derinimas naudojant istoriją visų veiksmų, kurie nutiko sistemoje, turi didžiulį pranašumą. Įvykių kaupimas gali vesti prie didelio našumo domeno modelių, tai yra palaikyti ypač didelį skaičių operacijų per sekundę. Pavyzdžiui, įrašymas į vieną duomenų saugyklos lentelę yra ypač greitas. Negana to, tai leidžia CQRS užklausų modelį išplėsti horizontaliai, nes duomenų šaltinio atnaujinimai įvykdomi fone, kai įvykių saugykla yra atnaujinama naujais įvykiais.
 
-\subsubsection{Įvykių srautas}
-
-Pagal \cite{Bass:2007:Mythbusters}, įvykių srautas yra eilė pagal laiką surikiuotų įvykių, pavyzdžiui akcijų rinkos srautas.
-
-Įvykių srautas kaip duomenų srauto tipas formaliai atrodo kaip pora (s, t), kur s yra seka surikiuotų sąrašo įvykių, o t yra seka laiko intervalų ir kiekvienas intervalas yra netuščias.
-
-Tokio duomenų srauto pavyzdžiai gali būti:
-
-\begin{itemize}
-
-	\item akcijų kursas,
-
-	\item paspaudimų srautas,
-
-	\item tinklo srautas,
-
-	\item GPS\footnote{http://en.wikipedia.org/wiki/Global\_Positioning\_System} duomenys.
-
-\end{itemize}
-
-Įvykių srauto apdorojimas pagal atsitikimo laiką turi privalumų:
-
-\begin{itemize}
-
-	\item įvykių apdorojimo algoritmai naudoja mažai atminties, nes jiems nereikia prisiminti daug įvykių;
-
-	\item algoritmai gali būti labai greiti;
-
-	\item gavus įvykį, skaičiavimai atliekami iškart, todėl galima perduoti rezultatą kitam skaičiavimui ir pamiršti įvykį.
-
-\end{itemize}
-
-Įvykių srauto apdorojimas labiau akcentuoja didelio našumo duomenų gavimą ir matematinių algoritmų pritaikymą įvykių duomenims. Taip pat įvykių srautai įprastai pritaikomi konkrečiai sistemai ar organizacijai.
-
 \subsubsection{Įvykių kaupimas funkciniame programavime}
 
 Vaughn Vernon pateikia keletą pastebėjimų apie įvykių kaupimą funkciniame programavime, kurie gali būti naudingi atliekant projektinius sprendimus bei eksperimentinį tyrimą:
@@ -137,7 +209,7 @@ Vaughn Vernon pateikia keletą pastebėjimų apie įvykių kaupimą funkciniame 
 
 \begin{lstlisting}
 
-	Func<Busena, Ivykis, Busena>
+	Funkcija<Busena, Ivykis, Busena>
 
 \end{lstlisting}
 
