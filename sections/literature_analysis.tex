@@ -1,14 +1,12 @@
 \subsection{Funkcinis-reaktyvus programavimas}
 
-Daugiausia remtąsi \cite{Survey}.
-
 \subsubsection{Įvadas}
 
-Funkcinis-reaktyvus programavimas, toliau vadinamas tiesiog FRP, yra būdas modeliuoti reaktyvų - besikeičiančius laiko tekmėje bei reaguojančius į išorinį stimulą - elgesį visiškai funkcinėse programavimo kalbose. FRP leidžia deklaratyviu ir paprastu būdu modeliuoti sistemas, kurios turi reaguoti į duomenis bėgant laikui.
+Anot \cite{Survey}, funkcinis-reaktyvus programavimas, toliau dažnai vadinamas tiesiog FRP, yra būdas modeliuoti reaktyvų - besikeičiančius laiko tekmėje bei reaguojančius į išorinį stimulą - elgesį visiškai funkcinėse programavimo kalbose. FRP leidžia deklaratyviu ir paprastu būdu modeliuoti sistemas, kurios turi reaguoti į duomenis bėgant laikui.
 
 \subsubsection{Pagrindinis tiklas}
 
-Pagrindinis funkcinio-reaktyvaus programavimo tikslas:
+Pagrindinis funkcinio-reaktyvaus programavimo tikslas \cite{Survey}:
 
 \begin{itemize}
 
@@ -32,7 +30,7 @@ Pagrindinės FRP sąvokos yra:
 
 \end{itemize}
 
-FRP pasiekia reaktyvumą naudodamas konstrukcijas, kurios tiksliai apibrėžia kaip signalai arba elgsena pasikeičia reaguodami į įvykius. Tai yra pagrindinis būdas išreiškiant bei realizuojant elgseną. Kitu būdu, elgsena gali būti laiko semantinės funkcijos\footnote{http://msdl.cs.mcgill.ca/people/tfeng/docs/as/node5.html}, kuriose laikas yra pakeičiamas kilus įvykiui.
+FRP pasiekia reaktyvumą naudodamas konstrukcijas, kurios tiksliai apibrėžia kaip signalai arba elgsena pasikeičia reaguodami į įvykius. Tai yra pagrindinis būdas išreiškiant bei realizuojant elgseną. Kitu būdu, elgsena gali būti laiko semantinės funkcijos\footnote{http://msdl.cs.mcgill.ca/people/tfeng/docs/as/node5.html}, kuriose laikas yra pakeičiamas kilus įvykiui \cite{Nilsson:2002:FRP:581690.581695}.
 
 \subsubsection{Sąvybės}
 
@@ -86,7 +84,7 @@ Tokio duomenų srauto pavyzdžiai gali būti:
 
 \subsubsection{Įvykių srautas funkciniame programavime}
 
-Vietoje įvykių srauto, galima naudoti klausytojo projektavimo šabloną \cite{WhiteboardPattern}, tačiau ilgame programinės įrangos kūrimo gyvavimo cikle įvykių srauto naudojimas palengvina kai kuriuos dalykus. Pavyzdžiui, imperatyvaus programavimo atžvilgiu, viename metode turime klausytoją, kuris reaguoją į situaciją /textit{A}, tačiau iškilus situacijai /textit{B}, šis klausytojas yra pašalinamas. Šiuo atveju programinis kodas, kuris valdo klausytojo gyvavimo ciklą yra įsipynęs keliose skirtingose kodo vietose, ko pasekoje tai reiškia, jog yra sunkiau palaikyti, stebėti, keisti bei suprasti šias vietas. Abstrahuojant klausytojų gyvavimo ciklo valdymo idėją tampa lengviau programuoti pagal tai kas turėtų nutikti, o ne pagal tai, ką kompiuteris turėtų daryti toliau. Tačiau turbūt didesnis įvykių srauto pranašumas yra tai, jog pastarasis gali būti transformuojamas ir komponuojamas. Toliau bus aprašomi operacijos arba veiksmai bei sutrumpinti išeities kodo pavyzdžiai, kuriuos galima atlikti su įvykių srautu remiantis Reactive Web\footnote{http://scalareactive.org} karkasu, skirtu Scala\footnote{http://www.scala-lang.org} programavimo kalbai.
+Vietoje įvykių srauto, galima naudoti klausytojo projektavimo šabloną \cite{WhiteboardPattern}, tačiau ilgame programinės įrangos kūrimo gyvavimo cikle įvykių srauto naudojimas palengvina kai kuriuos dalykus. Pavyzdžiui, imperatyvaus programavimo atžvilgiu, viename metode turime klausytoją, kuris reaguoją į situaciją /textit{A}, tačiau iškilus situacijai /textit{B}, šis klausytojas yra pašalinamas. Šiuo atveju programinis kodas, kuris valdo klausytojo gyvavimo ciklą yra įsipynęs keliose skirtingose kodo vietose, ko pasekoje tai reiškia, jog yra sunkiau palaikyti, stebėti, keisti bei suprasti šias vietas. Įvykių srautas yra pirmosios klasės reikšmės, todėl jį galima abstrahuoti \cite{EPFL-REPORT-176887}. Abstrahuojant klausytojų gyvavimo ciklo valdymo idėją tampa lengviau programuoti pagal tai kas turėtų nutikti, o ne pagal tai, ką kompiuteris turėtų daryti toliau. Tačiau turbūt didesnis įvykių srauto pranašumas yra tai, jog pastarasis gali būti transformuojamas ir komponuojamas. Toliau bus aprašomi operacijos arba veiksmai bei sutrumpinti išeities kodo pavyzdžiai, kuriuos galima atlikti su įvykių srautu remiantis Reactive Web\footnote{http://scalareactive.org} karkasu, skirtu Scala\footnote{http://www.scala-lang.org} programavimo kalbai.
 
 Pirmas veiksmas - įvykio srauto sukūrimas. Jis pavaizduotas \ref{creation} kodo pavyzdyje.  Pirmiausia sukuriamas įvykių šaltinis, kuris po to priskiriamas įvykių srautui.
 
@@ -142,6 +140,74 @@ Kitas esminis kolekcijų metodas yra \textit{map}. Jis leidžia transformuoti ko
 \end{lstlisting}
 
 
+Įvykių srautam taip pat galima pritaikyti \textit{flatmap} metodą. Scala kolekcijose šis metodas pritaiko funkciją visiems elementams, kuri grąžina naują kolekciją, kurioje sujungiamos visos grąžintų kolekcijų reikšmės. Pavyzdys pateiktas kodo pavyzdyje \ref{collectionsFlatmap}. Operacijos \textit{map} atveju būtų grąžinta reikšmė \textit{List(List(10, 11, 12), List(20, 21, 22), List(30, 31, 32))}, tačiau operacija \textit{flatMap} sujungia grąžintų kolekcijų reikšmes. 
+
+\begin{lstlisting}[caption=- flatmap Scala kolekcijose, label=collectionsFlatmap]
+	val original = List(1, 2, 3)
+	val flatMapped = original.flatMap(x => List(x*10,x*10+1,x*10_2))
+	flatMapped == List(10,11,12,  20,21,22,  30,31,32) 
+\end{lstlisting}
+
+Panašiai veikia \textit{flatMap} metodas įvykių srautuose. Pastarasis leidžia sukurti įvykių srautą, kuris iššauna įvykius, kurie yra iššauti kitų įvykių srautų. Metodas demonstruojamas \ref{flatmap} kodo pavyzdyje. Čia figūra yra išplečiama, o po to išnyksta.
+
+\begin{lstlisting}[caption=- flatmap įvykių sraute, label=flatmap]
+	// Assuming Shape is a case class with scale and opacity values
+	// and millisTimer fires events once per millisecond, starting
+	// at zero.
+	// Scale should animate from 0 to 1 over the first second,
+	// and opacity should animate from 1 to 0 over the next.
+	def compositeAnimation(millisTimer: EventStream[Long], shape: Shape): EventStream[Shape] = {
+	  val scale: EventStream[Double] =
+	    millisTimer.map(m => m/1000.0)
+	  val opacity: EventStream[Double] =
+	    millisTimer.map(m => 1 - (m-1000)/1000.0)
+	  val seconds = millisTimer.filter(_ % 1000 == 0).map(_ / 1000).
+	    takeWhile(_ < 2000)
+	  
+	  seconds.flatMap {
+	    case 0 => scale
+	    case 1 => opacity
+	  }
+	}
+\end{lstlisting}
+
+Imperatyviose kalbose, dažna užduotis yra iteruoti per masyvą ir atlikti tam tikrus veiksmus. Šiam veiksmui atlikti naudojamas tam tikras skaičius kintamųjų veiksmam atlikti, pavyzdžiui skaičiavimam. Funkciniame programavime šiam tikslui dažnai yra naudojamas \textit{foldLeft} metodas. Pastarasis priima pradinę reikšmę arba kitaip būseną ir funkciją, kuri priima paskutinę reikšmę arba būseną ir kitą kolekcijos elementą. Kiekvienam elementui funkcija grąžina reikšmę arba būseną, kuri naudojama sekančiam funkcijos kvietimui. Verta pastebėti, jog funkcinis programavimas čia leidžia kodą vykdyti lygiagrečiai jo visiškai nekeičiant. \ref{collectionsFoldLeft} kodo pavyzdys demonstruoja sąrašo elementų sumos skaičiavimą.
+
+\begin{lstlisting}[caption=- sąrašo elementų skaičiavimas naudojant flatmap, label=collectionsFoldLeft]
+	list.foldLeft(0){(totalSoFar, nextElement) => totalSoFar + nextElement}
+	//more commonly written as list.foldLeft(0)(_ + _)
+\end{lstlisting}
+
+Panašiai \textit{foldleft} metodą galima pritaikyti įvykių srautam. Demonstracija \ref{foldleft} kodo pavyzdyje.
+
+\begin{lstlisting}[caption=- foldleft metodas įvykių sraute, label=foldleft]
+	case class AvgState(total: Double, count: Int)
+	val eventSource = new EventSource[String] {}
+	
+	eventSource.foldLeft(AvgState(0,0)){
+      case (AvgState(total, count), s) => AvgState(total+s.length,count+1)
+    } map {
+      case AvgState(total, count) =>
+        "Average length so far: " + (total/count)
+    }
+\end{lstlisting}
+
+Įvykių srautus galima ne tik transformuoti, bet ir komponuoti, tai yra sujungti. Demonstracija \ref{merge} kodo pavyzdyje. Įvykių srautas \textit{allClicks} iššauna įvykį kai bet kuris iš kitų įvykių srautų iššauna įvykį.
+
+\begin{lstlisting}[caption=- įvykių srautų sujungimas, label=merge]
+	val allClicks = leftClicks | middleClicks | rightClicks
+\end{lstlisting}
+
+Įvykių srautą taip pat galima paversti signalu. Įvykių srautas atvaizduoja įvykius kaip srautą diskrečių reikšmių laiko tekmėje, taigi šios reikšmės egzistuoja momentiškai. Signalas atvaizduoja besitęsiančią reikšmę, tai yra turi dabartinę reikšmę. Kai signalo reikšmė pasikeičia, įvykių srautas iššauna naują įvykį. Įvykių srautą norint paversti signalu galima naudoti \textit{hold} metodą, kuriam yra paduodama pradinė reikšmė. Demonstracija \ref{hold} kodo pavyzdyje.
+
+\begin{lstlisting}[caption=- įvykių srautų pavertimas signalu, label=hold]
+	val eventSource = new EventSource[String] {}
+  	val signal = eventSource.hold("(initial value of signal)")
+  
+  	def render = Demos.eventSourceInput(eventSource) ++
+    	<p>Signal value: '{Demos.signalOutput(signal)}'</p>
+\end{lstlisting}
+
 \subsection{Įvykių kaupimas}
 
 Šiame skyriuje yra aprašomos žinios apie įvykių kaupimą, pliusus ir minusus, įvykių srautus bei įvykių kaupimą funkciniame programavime remiantis Vaughn Vernon surinkta ir aprašyta informacija \cite{vernon2013implementing}.
@@ -195,9 +261,9 @@ Momentinės kopijos nėra atkuriamos atsitiktinai. Jos gali būti kuriamos kas a
 
 \subsubsection{Įvykių kaupimo privalumai ir trūkumai}
 
-Kaip saugojimo mechanizmas, įvykių kaupimas stipriai skiriasi ir pakeičia ORM\footnote{http://www.orm.net/} įrankį. Kadangi įvykiai dažnai įrašomi kaip dvejetainės reprezentacijos, jie negali būti optimaliai naudojami užklausoms atlikti. Faktiškai įvykių kaupimu pagrįstoms saugykloms tereikia vienos operacijos - gauti įrašus pagal unikalią agregato tapatybę. To pasekoje užklausom daryti reikia kito kelio. Dažniausiai tam pasirenkamas CQRS\footnote{http://martinfowler.com/bliki/CQRS.html} principas. 
+Kaip saugojimo mechanizmas, įvykių kaupimas stipriai skiriasi ir pakeičia ORM\footnote{http://www.orm.net/} įrankį. Kadangi įvykiai dažnai įrašomi kaip dvejetainės reprezentacijos, jie negali būti optimaliai naudojami užklausoms atlikti. Faktiškai įvykių kaupimu pagrįstoms saugykloms tereikia vienos operacijos - gauti įrašus pagal unikalią agregato tapatybę \cite{CQRS:GregYoung}. To pasekoje užklausom daryti reikia kito kelio. Dažniausiai tam pasirenkamas CQRS\footnote{http://martinfowler.com/bliki/CQRS.html} principas \cite{Betts:2013:ECE:2509680}. 
 
-Įvykių kaupimas verčia kitaip mąstyti apie domeno modelį. Įvykių istorija gali padėti surasti bei ištaisyti sistemos defektus bei klaidas. Derinimas naudojant istoriją visų veiksmų, kurie nutiko sistemoje, turi didžiulį pranašumą. Įvykių kaupimas gali vesti prie didelio našumo domeno modelių, tai yra palaikyti ypač didelį skaičių operacijų per sekundę. Pavyzdžiui, įrašymas į vieną duomenų saugyklos lentelę yra ypač greitas. Negana to, tai leidžia CQRS užklausų modelį išplėsti horizontaliai, nes duomenų šaltinio atnaujinimai įvykdomi fone, kai įvykių saugykla yra atnaujinama naujais įvykiais.
+Įvykių kaupimas verčia kitaip mąstyti apie domeno modelį. Įvykių istorija gali padėti surasti bei ištaisyti sistemos defektus bei klaidas \cite{SeanFitz2012}. Derinimas naudojant istoriją visų veiksmų, kurie nutiko sistemoje, turi didžiulį pranašumą. Įvykių kaupimas gali vesti prie didelio našumo domeno modelių, tai yra palaikyti ypač didelį skaičių operacijų per sekundę. Pavyzdžiui, įrašymas į vieną duomenų saugyklos lentelę yra ypač greitas. Negana to, tai leidžia CQRS užklausų modelį išplėsti horizontaliai, nes duomenų šaltinio atnaujinimai įvykdomi fone, kai įvykių saugykla yra atnaujinama naujais įvykiais.
 
 \subsubsection{Įvykių kaupimas funkciniame programavime}
 
@@ -205,9 +271,9 @@ Vaughn Vernon pateikia keletą pastebėjimų apie įvykių kaupimą funkciniame 
 
 \begin{itemize}
 
-	\item Agregatas projektuojamas kaip nekintantis būsenos įrašas kartu su funkcijomis, kurios keičia būseną. Šios funkcijos paprasčiausiai priima būsenos įrašą ir įvykių argumentus ir gražina naują būsenos įrašą kaip rezultatą. Tokios funkcijos atrodo:
+	\item Agregatas projektuojamas kaip nekintantis būsenos įrašas kartu su funkcijomis, kurios keičia būseną. Šios funkcijos paprasčiausiai priima būsenos įrašą ir įvykių argumentus ir gražina naują būsenos įrašą kaip rezultatą. Tokia funkcija pavaizduota \ref{aggregate} kodo pavyzdyje.
 
-\begin{lstlisting}
+\begin{lstlisting}{caption=- agregato būsenos keitimas, label=aggregate}
 
 	Funkcija<Busena, Ivykis, Busena>
 
@@ -225,9 +291,46 @@ Vaughn Vernon pateikia keletą pastebėjimų apie įvykių kaupimą funkciniame 
 
 \subsubsection{Terminas}
 
-Funkciniame programavime monada yra struktūra, kuri atspindi skaičiavimus, apibrėžtus kaip seka žingsnių. Tipas kartu su monados struktūra apibrėžia ką reiškia vykdyti operacijas viena po kitos bei naudoti to pačio tipo įdėtines funkcijas. Tai leidžia kurti komandų grandines, kurios pažingsniui apdoroja informaciją, kur kiekvienas veiksmas yra dekoruojamas naujomis apdorojimo taisyklėmis, kurias apibrėžia monada \cite{OSullivan:2008:RWH:1523280}.
+Funkciniame programavime monada yra struktūra, kuri atspindi skaičiavimus, apibrėžtus kaip seka žingsnių. Tipas kartu su monados struktūra apibrėžia ką reiškia vykdyti operacijas viena po kitos bei naudoti to pačio tipo įdėtines funkcijas. Tai leidžia kurti komandų grandines, kurios pažingsniui apdoroja informaciją, kur kiekvienas veiksmas yra dekoruojamas naujomis apdorojimo taisyklėmis, kurias apibrėžia monada \cite{OSullivan:2008:RWH:1523280}. Taip pat monada gali būti laikoma kaip funkcinis projektavimo šablonas, skirtas kurti daugybinius tipus \cite{monadicDesign}.
 
-taisykles?
+\subsubsection{Taisyklės}
+
+Anot \cite{Wadler:1995:MFP:647698.734146}, monadų operacijos turi tenkinti tris taisykles:
+
+\begin{itemize}
+
+	\item Kairiojo vienetotapatybės (angl. left unit/identity) - suskaičiuojama reikšmė \textit{a}, rezultatui priskiriamas \textit{b} ir suskaičiujama \textit{n} reikšmė. Rezultatas yra toks pat kaip \textit{n} kai \textit{a} reikšmė pakeičiama \textit{b} reikšme. Parodyta \ref{pic:left} paveikslėlio formulėje.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics{pics/left.png}
+	\caption{Perkėlimo į kairę taisyklė}
+	\label{pic:left}
+\end{figure}
+
+	\item dešiniojo vieneto/tapatybės (angl. right unit/identity) - suskaičiuojama reikšmė \textit{m}, rezultatas priskiriamas \textit{a} ir grąžinama \textit{a}. Rezultatas yra toks pat kaip \textit{m}. Parodyta \ref{pic:right} paveikslėlio formulėje.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics{pics/right.png}
+	\caption{Perkėlimo į dešinę taisyklė}
+	\label{pic:right}
+\end{figure}
+
+	\item Asociatyvumas - suskaičiuojama reikšmė \textit{m}, rezultatas priskiriamas \textit{a}, suskaičiuojamas \textit{n}, rezultatas priskiriamas \textit{b}, suskaičiuojama \textit{o}. Skliaustelių padėtis šiuo atveju yra nesvarbi. Kintamojo \textit{a} apimtis įtraukia \textit{o} kairėje, tačiau neįtraukia \textit{o} dešinėje, todėl ši taisyklė galioja tik tada kai \textit{a} nėra laisvas nuo \textit{o}. Parodyta \ref{pic:associative} paveikslėlio formulėje.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics{pics/associative.png}
+	\caption{Asociatyvumas}
+	\label{pic:associative}
+\end{figure}
+
+\end{itemize}
+
+\subsubsection{Tolesnis darbas}
+
+Kitame mokslinio tyrimo etape ruošiamąsi įrodyti, kad funkcinį-reaktyvų programavimą įmanoma taikyti įvykių kaupimo sistemose. Šiam tikslui pasiekti toliau bus nagrinėjamos monados, jų komponavimo būdai. Kad geriau suprasti monadas turbūt prireiks įgauti žinių kategorijų teorijoje, daugiau žinių apie funkcinį programavimą, pavyzdžiui tipizuotos klasės, parametrizuoti tipai ir t.t.
 
 \subsection{Išvados}
 
@@ -239,7 +342,7 @@ Literatūros analizės metu remiantis kitų autorių patirtimi:
 
 \item išnagrinėtas įvykių kaupimo principas,
 
-\item išnagrinėti įvykių srautai,
+\item išnagrinėti įvykių srautai bei operacijos su jais,
 
 \item susipažinta su įvykių kaupimu funkciniame programavime,
 
