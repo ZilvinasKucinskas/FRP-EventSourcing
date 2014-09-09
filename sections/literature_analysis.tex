@@ -38,7 +38,7 @@ Anot anksčiausios funkcinio-reaktyvaus programavimo formuluotės \cite{ElliottH
 
 \begin{itemize}
 
-	\item elgsenos arba singalų modeliavimas bėgant laikui,
+	\item elgsenos arba signalų modeliavimas bėgant laikui,
 
 	\item įvykių, kurie turi baigtinį skaičių atsitikimų daugelyje laiko taškų, modeliavimas,
 
@@ -84,7 +84,7 @@ Tokio duomenų srauto pavyzdžiai gali būti:
 
 \subsubsection{Įvykių srautas funkciniame programavime}
 
-Vietoje įvykių srauto, galima naudoti klausytojo projektavimo šabloną \cite{WhiteboardPattern}, tačiau ilgame programinės įrangos kūrimo gyvavimo cikle įvykių srauto naudojimas palengvina kai kuriuos dalykus. Pavyzdžiui, imperatyvaus programavimo atžvilgiu, viename metode turime klausytoją, kuris reaguoją į situaciją /textit{A}, tačiau iškilus situacijai /textit{B}, šis klausytojas yra pašalinamas. Šiuo atveju programinis kodas, kuris valdo klausytojo gyvavimo ciklą yra įsipynęs keliose skirtingose kodo vietose, ko pasekoje tai reiškia, jog yra sunkiau palaikyti, stebėti, keisti bei suprasti šias vietas. Įvykių srautas yra pirmosios klasės reikšmės, todėl jį galima abstrahuoti \cite{EPFL-REPORT-176887}. Abstrahuojant klausytojų gyvavimo ciklo valdymo idėją tampa lengviau programuoti pagal tai kas turėtų nutikti, o ne pagal tai, ką kompiuteris turėtų daryti toliau. Tačiau turbūt didesnis įvykių srauto pranašumas yra tai, jog pastarasis gali būti transformuojamas ir komponuojamas. Toliau bus aprašomi operacijos arba veiksmai bei sutrumpinti išeities kodo pavyzdžiai, kuriuos galima atlikti su įvykių srautu remiantis Reactive Web\footnote{http://scalareactive.org} karkasu, skirtu Scala\footnote{http://www.scala-lang.org} programavimo kalbai.
+Vietoje įvykių srauto, galima naudoti klausytojo projektavimo šabloną \cite{WhiteboardPattern}, tačiau ilgame programinės įrangos kūrimo gyvavimo cikle įvykių srauto naudojimas palengvina kai kuriuos dalykus. Pavyzdžiui, imperatyvaus programavimo atžvilgiu, viename metode turime klausytoją, kuris reaguoją į situaciją \textit{A}, tačiau iškilus situacijai \textit{B}, šis klausytojas yra pašalinamas. Šiuo atveju programinis kodas, kuris valdo klausytojo gyvavimo ciklą yra įsipynęs keliose skirtingose kodo vietose, ko pasekoje tai reiškia, jog yra sunkiau palaikyti, stebėti, keisti bei suprasti šias vietas. Įvykių srautas yra pirmosios klasės reikšmės, todėl jį galima abstrahuoti \cite{EPFL-REPORT-176887}. Abstrahuojant klausytojų gyvavimo ciklo valdymo idėją tampa lengviau programuoti pagal tai kas turėtų nutikti, o ne pagal tai, ką kompiuteris turėtų daryti toliau. Tačiau turbūt didesnis įvykių srauto pranašumas yra tai, jog pastarasis gali būti transformuojamas ir komponuojamas. Toliau bus aprašomi operacijos arba veiksmai bei sutrumpinti išeities kodo pavyzdžiai, kuriuos galima atlikti su įvykių srautu remiantis Reactive Web\footnote{http://scalareactive.org} karkasu, skirtu Scala\footnote{http://www.scala-lang.org} programavimo kalbai.
 
 Pirmas veiksmas - įvykio srauto sukūrimas. Jis pavaizduotas \ref{creation} kodo pavyzdyje.  Pirmiausia sukuriamas įvykių šaltinis, kuris po to priskiriamas įvykių srautui.
 
@@ -106,7 +106,7 @@ Taip pat \textit{EventSource} (įvykių šaltinis) turi naudingą poklasį \text
     	yield "timer: " + t.toString
 \end{lstlisting}
 
-Įvykių srautas valdo kolekciją klausytojų, tačiau konceptualiai reikėtų mąstyti kitaip. Klausytojo pridėjimas iš tikrųjų reiškia funkcijos iškvietimą kiekvienam kilusiui įvykiui, kitais žodžiais kiekvienam įvykių srauto įvykiui. Lygiai taip pat kaip Scala programavimo kalboje norint įvykdyti funkciją kiekvienai kolekcijos reikšmei yra iškviečiama \textit{foreach} funkcija. Tačiau įvykių srauto atveju, \textit{foreach} grąžina rezultatą akimirksniu, o funkcija yra išsaugoma ir vėliau įvykdoma kai tik gaunamas koks nors įvykis. Šio atvejo praktinis variantas pademonstruotas \ref{foreach} kodo pavyzdyje.
+Įvykių srautas valdo kolekciją klausytojų, tačiau konceptualiai reikėtų mąstyti kitaip. Klausytojo pridėjimas iš tikrųjų reiškia funkcijos iškvietimą kiekvienam kilusiui įvykiui, kitais žodžiais kiekvienam įvykių srauto įvykiui. Lygiai taip pat kaip Scala programavimo kalboje norint įvykdyti funkciją kiekvienai kolekcijos reikšmei yra iškviečiama \textit{foreach} funkcija. Tačiau įvykių srauto atveju, \textit{foreach} grąžina rezultatą akimirksniu, o funkcija yra išsaugoma ir vėliau įvykdoma kai tik iššaunamas koks nors įvykis. Šio atvejo praktinis variantas pademonstruotas \ref{foreach} kodo pavyzdyje.
 
 \begin{lstlisting}[caption=- klausytojų pridėjimas, label=foreach]
 	val eventSource = new EventSource[String] {}
@@ -119,13 +119,13 @@ Taip pat \textit{EventSource} (įvykių šaltinis) turi naudingą poklasį \text
 
 \end{lstlisting}
 
-Rinkinys transformacijų metodų įvykių srautą padaro labai universaliu. Šios transformacijos grąžina modifikuotą įvykių srautą. Transformacijas galima atlikti viena po kitos. Tai primena transformacijas galimas su Scala kolekcijomis, pavyzdžiui \ref{collectionTransformation} kodo pavyzdyje. Kai tik originalus įvykių srautas gauna įvykį, transformuotas įvykių srautas gauna savo įvykį pritaikant klausytojo funkciją.
+Rinkinys transformacijos metodų įvykių srautą padaro labai universaliu. Šios transformacijos grąžina modifikuotą įvykių srautą. Transformacijas galima atlikti viena po kitos. Tai primena transformacijas galimas su Scala kolekcijomis, pavyzdžiui \ref{collectionTransformation} kodo pavyzdyje. Kai tik originalus įvykių srautas gauna įvykį, transformuotas įvykių srautas iššauna savo įvykį pritaikant klausytojo funkciją.
 
 \begin{lstlisting}[caption=- kolekcijos transformacijos, label=collectionTransformation]
 	List(1,2,3).map(_ * 10).filter(_ < 25)
 \end{lstlisting}
 
-Jeigu įvykių srautas gauna labai daug įvykių, tačiau aktualūs yra tik dalis jų, galima naudoti filtravimą, tai yra \textit{filter} metodą. Tai demonstruojama \ref{filter} kodo pavyzdyje. Čia kiekvienam įvykiui yra pritaikomas predikatas. Jeigu jis įvertinimas kaip teisingas arba kitaip \textit{true}, įvykis yra gaunamas transformuotame įvykių sraute.
+Jeigu įvykių srautas gauna labai daug įvykių, tačiau aktualūs yra tik dalis jų, galima naudoti filtravimą, tai yra \textit{filter} metodą. Tai demonstruojama \ref{filter} kodo pavyzdyje. Čia kiekvienam įvykiui yra pritaikomas predikatas. Jeigu jis įvertinimas kaip teisingas arba kitaip \textit{true}, įvykis yra iššaunamas transformuotame įvykių sraute.
 
 \begin{lstlisting}[caption=- įvykių srauto filtravimas, label=filter]
 	val eventSource = new EventSource[String] {}
@@ -198,7 +198,7 @@ Panašiai \textit{foldleft} metodą galima pritaikyti įvykių srautam. Demonstr
 	val allClicks = leftClicks | middleClicks | rightClicks
 \end{lstlisting}
 
-Įvykių srautą taip pat galima paversti signalu. Įvykių srautas atvaizduoja įvykius kaip srautą diskrečių reikšmių laiko tekmėje, taigi šios reikšmės egzistuoja momentiškai. Signalas atvaizduoja besitęsiančią reikšmę, tai yra turi dabartinę reikšmę. Kai signalo reikšmė pasikeičia, įvykių srautas iššauna naują įvykį. Įvykių srautą norint paversti signalu galima naudoti \textit{hold} metodą, kuriam yra paduodama pradinė reikšmė. Demonstracija \ref{hold} kodo pavyzdyje.
+Įvykių srautas atvaizduoja įvykius kaip srautą diskrečių reikšmių laiko tekmėje, taigi šios reikšmės egzistuoja momentiškai. Tačiau įvykių srautą taip pat galima paversti signalu. Signalas atvaizduoja besitęsiančią reikšmę, tai yra turi dabartinę reikšmę. Kai signalo reikšmė pasikeičia, įvykių srautas iššauna naują įvykį. Įvykių srautą norint paversti signalu galima naudoti \textit{hold} metodą, kuriam yra paduodama pradinė reikšmė. Demonstracija \ref{hold} kodo pavyzdyje.
 
 \begin{lstlisting}[caption=- įvykių srautų pavertimas signalu, label=hold]
 	val eventSource = new EventSource[String] {}
@@ -210,7 +210,7 @@ Panašiai \textit{foldleft} metodą galima pritaikyti įvykių srautam. Demonstr
 
 \subsection{Įvykių kaupimas}
 
-Šiame skyriuje yra aprašomos žinios apie įvykių kaupimą, pliusus ir minusus, įvykių srautus bei įvykių kaupimą funkciniame programavime remiantis Vaughn Vernon surinkta ir aprašyta informacija \cite{vernon2013implementing}.
+Šiame skyriuje yra aprašomos žinios apie įvykių kaupimą, pliusus ir minusus, įvykių srautus bei įvykių kaupimą funkciniame programavime remiantis daugiausia Vaughn Vernon surinkta ir aprašyta informacija \cite{vernon2013implementing}.
 
 \subsubsection{Įvadas}
 
@@ -228,7 +228,7 @@ Kartais verslui svarbu fiksuoti objekto pasikeitimus domeno modelyje\footnote{ht
 
 Tačiau šis būdas nepateikia jokios informacijos apie vienkartinius pasikeitimus.
 
-Atsiradus poreikiu stebėti pasikeitimus detaliau, verslas reikalauja dar daugiau metaduomenenų\footnote{http://en.wikipedia.org/wiki/Metadata}, ko pasekoje tokie faktai kaip individualios operacijos laiko tekmėje bei jų įvykdymo laikas tampa svarbūs. Šie poreikiai verčia įvesti audito žurnalą fiksuoti labai tikslias panaudojimo atvejų metrikas, tačiau pastarasis būdas turi apribojimų. Jis gali atskleisti dalį informacijos apie tai kas nutiko sistemoje, leisti rasti bei ištaisyti dalį riktų bei klaidų programinėje įrangoje, bet audito žurnalas neleidžia patikrinti domeno objekto būsenos prieš ir po tam tikrų pasikeitimų. O jeigu būtų galima išgauti daugiau informacijos iš pasikeitimų stebėjimo?
+Atsiradus poreikiui stebėti pasikeitimus detaliau, verslas reikalauja dar daugiau metaduomenenų\footnote{http://en.wikipedia.org/wiki/Metadata}, ko pasekoje tokie faktai kaip individualios operacijos laiko tekmėje bei jų įvykdymo laikas tampa svarbūs. Šie poreikiai verčia įvesti audito žurnalą fiksuoti labai tikslias panaudojimo atvejų metrikas, tačiau pastarasis būdas turi apribojimų. Jis gali atskleisti dalį informacijos apie tai kas nutiko sistemoje, leisti rasti bei ištaisyti dalį riktų bei klaidų programinėje įrangoje. Bet audito žurnalas neleidžia patikrinti domeno objekto būsenos prieš ir po tam tikrų pasikeitimų. O jeigu būtų galima išgauti daugiau informacijos iš pasikeitimų stebėjimo?
 
 Visi programinės įrangos kūrėjai susiduria su labai tiksliu pasikeitimų stebėjimu. Įprastas ir populiarus pavyzdys yra išeities kodo saugyklos, tokios kaip CVS\footnote{http://www.nongnu.org/cvs/}, Subversion\footnote{http://subversion.apache.org/}, Git\footnote{http://git-scm.com/} arba Mercurial\footnote{http://mercurial.selenic.com/}. Visos šios pataisų valdymo sistemos leidžia stebėti pirminių failų pasikeitimus. Įrankiai leidžia peržiūrėti išeities kodo artefaktus nuo pačios pirmosios pataisos iki paskutinės. Kai visi išeities failai yra nusiunčiami į pataisų kontrolės sistemą, ši gali stebėti pasikeitimus viso programinės įrangos kūrimo gyvavimo ciklo metu.
 
@@ -273,7 +273,7 @@ Vaughn Vernon pateikia keletą pastebėjimų apie įvykių kaupimą funkciniame 
 
 	\item Agregatas projektuojamas kaip nekintantis būsenos įrašas kartu su funkcijomis, kurios keičia būseną. Šios funkcijos paprasčiausiai priima būsenos įrašą ir įvykių argumentus ir gražina naują būsenos įrašą kaip rezultatą. Tokia funkcija pavaizduota \ref{aggregate} kodo pavyzdyje.
 
-\begin{lstlisting}{caption=- agregato būsenos keitimas, label=aggregate}
+\begin{lstlisting}[caption=- agregato būsenos keitimas, label=aggregate]
 
 	Funkcija<Busena, Ivykis, Busena>
 
