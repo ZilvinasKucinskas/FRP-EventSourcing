@@ -8,11 +8,12 @@ Pagrindinė funkcinio programavimo abstrakcija yra funkcija, kuri priima tam tik
 
 Priešingai, labiau populiarus imperatyvaus programavimo modelis priima sakinius arba veiksmus kaip pirminius programos konstravimo blokus, kurie modifikuoja būseną. Tokios programos turi nuoseklų kontrolės srautą ir reikalauja samprotavimo apie pašalinius efektus. Iš prigimties jie yra atsparūs kompoziciniam samprotavimui.
 
-Netgi funkcinėse programavimo kalbose, reaktyvios programos yra paprastai parašytos imperatyviu stiliumi, naudojant žemo lygio bei ne paruoštų komponentų abstrakcijas įskaitant atgalinius skambintojus arba objektu paremtais įvykių dorokliais. Tai pririša modelį prie interaktyvumo prie žemo lygio realizacijos detalių tokių kaip laikas bei įvykių dorojimo modeliai.
+Netgi funkcinėse programavimo kalbose, reaktyvios programos yra paprastai parašytos imperatyviu stiliumi, naudojant žemo lygio bei ne paruoštų komponentų abstrakcijas įskaitant atgalinius skambintojus arba objektu paremtais įvykių dorokliais. Tai pririša modelį prie interaktyvumo prie žemo lygio realizacijos detalių tokių kaip laikas bei įvykių apdorojimo modeliai.
 
 Funkcinis reaktyvus programavimas reiškia, jog modelis turi išlaikyti funkcinio protamavimo charakteristikas (pavyzdžiui, primityvios kalbos konstrukcijos turi likti pirmosios klasės) įtraukiant reaktyvumą į kalbos modelį. Ypač funkcijos turėtų būti panaikintos, jog operuotų reaktyviomis reikšmėmis ir pačios funkcijos privalo būti reaktyvios.
 
-Pagrindinis FRP tikslas yra suteikti kompozicines ir aukšto lygio abstrakcijas, jog būtų galima kurti reaktyvias programas. Pagrindinės FRP abstrakcijos yra:
+Pagrindinis FRP tikslas yra suteikti kompozicines ir aukšto lygio abstrakcijas, jog būtų galima kurti reaktyvias programas. 
+Pagrindinės FRP abstrakcijos yra:
 
 \begin{itemize}
 
@@ -147,9 +148,9 @@ Interactyvios multimedijos animacijų kūrimas (įskaitant audio, nuotraukas, vi
 
 \end{itemize} 
 
-Leidžiant programuotojams išreikšti interaktyvios informacijos "kas", kažkas gali tikėtis automatizuoti prezentacijos "kaip". Šiuo požiūriu, neturėtų būti netikėta, jog rinkinys išraiškingų rekursyvių duomenų tipų sujungtų su deklaratyvia programavimo kalba leidžia patogiai modeliuoti animacijas, priešingai nei bendrinė praktika naudoti imperatyvias kalbas sutartinai mišriam modeliavimo/prezentacijos stiliui. Taipogi yra rasta ne griežta semantika, aukštesnės eilės funkcijos, stiprus polimorfinis tipizavimas ir sistemingas perkrovimas yra vertingos kalpos sąvybės, leidžiančios palaikyti sumodeliuotą animaciją. Dėl šių priežasčių, Fran suteikia duomenų tipus programavimo kalboje Haskell.
+Leidžiant programuotojams išreikšti "kas" yra interaktyvi informacija, kažkas gali tikėtis automatizuoti "kaip" tai atvaizduojama. Šiuo požiūriu, neturėtų būti netikėta, jog rinkinys išraiškingų rekursyvių duomenų tipų sujungtų su deklaratyvia programavimo kalba leidžia patogiai modeliuoti animacijas, priešingai nei bendrinė praktika naudoti imperatyvias kalbas sutartinai mišriam modeliavimo/prezentacijos stiliui. Taipogi yra rasta ne griežta semantika, aukštesnės eilės funkcijos, stiprus polimorfinis tipizavimas ir sistemingas perkrovimas yra vertingos kalpos sąvybės, leidžiančios palaikyti sumodeliuotą animaciją. Dėl šių priežasčių, Fran suteikia duomenų tipus programavimo kalboje Haskell.
 
-\subusubsection{Modeliavimo privalumai lyginant su prezentacija}
+\subsubsection{Modeliavimo privalumai lyginant su prezentacija}
 
 Modeliavimo privalumai prieš animaciją yra panašūs į funkcinės (arba galima sakyti deklaratyvios) programavimo kalbos paradigmą ir apima aiškumą, kūrimo lengvumą, komponavimą ir švarią semantiką. Be šių yra programai būdingų privalumų, tam tikrais atvejais patrauklesnių iš programinės įrangos kūrėjos bei galutinio vartotojo perspektyvos. Šie privaluai apima:
 
@@ -165,7 +166,7 @@ Modeliavimo privalumai prieš animaciją yra panašūs į funkcinės (arba galim
 
 \end{itemize}
 
-\subsubsystem{Modeliavimo esmė}
+\subsubsection{Modeliavimo esmė}
 
 Yra keturios pagrindinės modeliavimo idėjos:
 
@@ -191,84 +192,3 @@ Yra keturios pagrindinės modeliavimo idėjos:
 	\item Polimorfinė medija. Laike besikeičiančių medijų (nuotraukos, video, garsas, 3D grafika) įvairovė ir šių tipų parametrai (erdvinės transformacijos, spalvos, taškai, vektoriai, skaičiai) turi savo pačių specialiai tipui opecijas (pavyzdžiui, nuotraukų sukimas, garso maišymas, skaitmeninė sudėtis), tačiau sutelpa į bendrinį elgesio ir reaktyvumo karkasą. Pavyzdžiui, 'untilB' operaciją naudojama prieš tai yra polimorfinė, tinkanti bet kuriai laike beisikeičiančiai reikšmei.
 
 \end{itemize}
-
-\subsubsection{Formali semantika}
-
-\subsubsection{Semantinės domeno sritys}
-
-Abstraktkti laiko domeno sritis yra vadinama \textit{Time}. Abstrakti polimorfinio elgesio(\textit{$\alpha$-behaviors}) domeno sritis yra žymima \textit{Behavior_{\(\alpha\)}}, o polimorfinių įvykių(\textit{$\alpha$-events}) yra žymima \textit{Event_{\(\alpha\)}}.
-
-Daugiausia šių sričių (sveikieji skaičiai, loginės reikšmės) yra standartinės ir nereikalauja paaiškinimo. \textit{Time} domeno sritis reikalauja specialaus traktavimo kadangi laiko reikšmės įtraukia dalinius elementus. Ypač yra žinoma, jog laikas bent jau kažkokia reikšmė netgi nežinant galutinės reikšmės. Tiksliau laiko domeno sritį galima apibrėžti taip: tarkime \textit{R} yra rinkinys realių skaičių ir jame yra elementai \(\infty\)  ir -\(\infty\). Šis rinkinys turi standartinį aritmenį rikiavimą \(\leq\) įskaitant faktą, jog -\(\infty\) \(\leq\) \(\infty\) kiekvienam x \(\in\) R.
-
-Dabar apibrėžkime laiką kaip \textit{Time} = R + R, kur elementai antrame rinkinyje R yra atskiriami rikiaviu \(\geq\) (pavyzdžiui, \(\geq\) 42 skaitytume kaip "daugiau arba lygu 42". Tada galima apibrėžti \perp \textit{Time} =  \(\geq\)(-\(\infty\)) ir domeno srities (pavyzdžiui, informacijos) rikiavimą pagal laiką:
-
-\begin{gather*}
-x \(\sqsubseteq\) x, \(\forall\)x \in R \\
-\(\geq\)x \(\sqsubseteq\) y  if x \(\leq\) y, \(\forall\)x,y \in R \\
-\(\geq\)x \(\sqsubseteq\) \(\geq\) y if x \(\leq\) y, \(\forall\)x,y \in R
-\end{gather*} 
-
-Lengva pastebėti, jog \(\perp\)\textit{Time} yra apatinis elementas. Svarbu paminėti, jog y yra tik bent viršutinė dalinių elementų rinkinio riba (angl. leat upper bound), kuri apytiksliai lygi:
-
-\begin{gather*}
-y = \sqcup\ \{ \geq\ \(\|\) x \leq\ y \}
-\end{gather*} 
-
-Kadangi laiko domeno rikiavimas yra grandinės tipo ir kiekviena tokia grandinė turi bent viršutinę ribą (prisiminkime R turi viršutinį elementą \(\infty\)), laiko domenas yra pilnos dalinės tvarkos (angl. complete partial order). Šis faktas yra būtinas, jog būtų galima užtikrinti, kad rekursyvūs apibrėžimai yra gerai apibrėžti.
-
-\textit{Time} rinkinio elementai naudingiausi įvertinant laiką kada atsitinka įvykis. Įvykis kurio laikas apytiksliai \(\geq\)t yra tas, kurio konkretus įvykimo laikas yra didesnis nei t. Svarbu, jog įvykio, kuris niekada neįvyksta, laikas yra \(\infty\), bent viršutinė R riba.
-
-Galiausiai apibrėžimą galima išplėsti aritmetiniui operatoriui \(\leq\) visam \textit{Time} apibrėžiant jo elgesį visuose subdomenuose:
-
-\begin{gather*}
-x \(\leq\) _\(\geq\)y if x \leq y
-\end{gather*}
-
-Tai gali būti skaitoma kaip: "Laikas x yra mažesnis arba lygus laikui, kuris yra bent y jeigu x mažiau arba lygu y". Lengva parodyti, jog ši išplėsta tipo \texit{Time} \(\rightarrow\) \textit{Time} \(\rightarrow\) \textit{Bool} funkcija yra tolydi atsižvelgiant į \(\sqsubseteq\).
-
-\subsubsection{Semantinės funkcijos}
-
-Polimornio elgesio interpretaciją galima apibrėžti kaip funkciją, kuri priima polimorfinę reikšmę bei pagamina elgesio b reikšmę  laiku t.
-
-\begin{gather*}
-at : Behavior_{\alpha} \(\rightarrow\) Time \(\rightarrow\) \alpha
-\end{gather*}
-
-Tada galima apibrėžti polimorfinių įvykių interpretaciją kaip paprastą ir negriežtą \textit{Time} \(\times\) \(\alpha\) porą, aprašančią laiką ir informaciją, susijusią su įvykio atsitikimu:
-
-\begin{gather*}
-occ : Event{\alpha} \(\rightarrow\) Time \(\times\) \alpha
-\end{gather*}
-
-Žinant semantinią domeno sritį, galima pateikti formalias įvykių kombinatorių interpretacijas.
-
-\subsubsection{Elgesio semantika}
-
-Elgesys yra kuriamas iš kito elgesio, statinių (nesikeičiančių laike) reikšmių ir įvykių naudojantis kolekcija konstruktorių (kombinatorių).
-
-\begin{itemize}
-	
-	\item \textbf{Laikas}. Paprasčiausias primityvus elgesys yra laikas - \text{time}, kurio semantika yra:
-
-\begin{gather*}
-time: Behavior_{Time} \\
-\textbf{at}[[time]]t = t
-\end{gather*}
-
-	Šiuo atveju \textbf{at}[[time]]t = t yra tik \textit{Time} tapatumo funkcija.
-
-	\item \textbf{Pakėlimas\footnote{Praktikoje pakėlimas yra reikalingas gana dažnai, todėl būtų nepatogu visur kelti išreikštinai. Vietoe to pageidautina naudoti žinomus vardus, tokius kaip: "sin", "cos", "+", "*"" ir netgi literalus, tokius kaip "3" arba "mėlynas" nurodant pakeltas versijas. Pavyzdžiui, literalas "42" turėtų elgtis kaip nekintantis elgesys "lift_{0} 42", o sudėtis "b_{1} + b_{2}" - "lift_{2} (+) b_{1} b{2}"}} (angl. lifting) - įprastas būdas funkcijoms, apibrėžiančioms nekintančias reikšmes, "pakelti" į analogines funkcijas, apibrėžtoms elgesiu. Pakėlimas yra įvykdomas naudojant (konceptualiai begalinę) šeimą operatorių - vieną keikvienam funkcijos valentingumui (angl. arity).
-
-\begin{gather*}
-lift_{n} : ( \alpha_{1} \rightarrow\ ... \rightarrow\ \alpha_{n} \rightarrow\ \beta ) \rightarrow\
-	Behavior_{\alpha_{1}} \rightarrow\ ... \rightarrow\ Behavior_{\alpha_{n}} \rightarrow\ Behavior_{\beta} \\
-\textbf{at}[[lift_{n} f b_{1}...b_{n}]]t = f (\textbf{at}[[b_{1}t]])...(\textbf{at}[[b_{n}]]t)
-\end{gather*}
-
-	Svarbu paminėti, jog nesikeičiančios reikšmės pakėlimas yra \textit{lift_{0}}
-
-	\item \textbf{Laiko transformacija}. 
-
-\end{itemize}
-
-

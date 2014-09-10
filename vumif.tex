@@ -5,10 +5,20 @@
 \usepackage[\LTfontencoding]{fontenc}
 \usepackage[lithuanian]{babel}
 \usepackage{amsmath}
+\usepackage{float}
 
 \usepackage{VUMIF}
 \usepackage{listings}
 \usepackage{graphicx}
+
+\usepackage{titlesec}
+
+\setcounter{secnumdepth}{4}
+
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
 
 % "define" Scala
 \lstdefinelanguage{scala}{
@@ -83,10 +93,13 @@
 \input{sections/introduction}
 
 \section{Literatūros analizė}
-\input{sections/literature_analysis}
+% \input{sections/literature_analysis}
 
-\section{NAUJA!!!!!}
-\input{sections/new_info}
+% \section{NAUJA!!!!!}
+% \input{sections/new_info}
+
+\input{sections/content}
+\input{sections/es}
 
 \section{Sąvokų apibrėžimai}
 \input{sections/savokos}
