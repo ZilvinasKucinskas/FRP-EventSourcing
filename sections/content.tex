@@ -180,11 +180,11 @@ Viena pagrindinė išimtis yra Reactive-banana sistema, kuri suteikia monadą pr
 
 \paragraph{Semantinės domeno sritys}
 
-Abstrakti laiko domeno sritis yra vadinama \textit{Time}. Abstrakti polimorfinio elgesio(\textit{$\alpha$-behaviors}) domeno sritis yra žymima \textit{Behavior_{\(\alpha\)}}, o polimorfinių įvykių(\textit{$\alpha$-events}) yra žymima \textit{Event_{\(\alpha\)}}.
+Semantinė domeno sritis - kalbos konstruktų formalizavimas į matematinius objektus. Tai suteikia konstruktams prasmę bei įgalina samprotauti. Mus dominanti abstrakti laiko domeno sritis yra vadinama \textit{Time}. Abstrakti polimorfinio elgesio(\textit{$\alpha$-behaviors}) domeno sritis yra žymima \textit{Behavior_{\(\alpha\)}}, o polimorfinių įvykių(\textit{$\alpha$-events}) yra žymima \textit{Event_{\(\alpha\)}}.
 
-Daugiausia šių sričių (sveikieji skaičiai, loginės reikšmės) yra standartinės ir nereikalauja paaiškinimo. \textit{Time} domeno sritis reikalauja specialaus traktavimo kadangi laiko reikšmės įtraukia dalinius elementus. Ypač yra žinoma, jog laikas bent jau kažkokia reikšmė netgi nežinant galutinės reikšmės. Tiksliau laiko domeno sritį galima apibrėžti taip: tarkime \textit{R} yra rinkinys realių skaičių ir jame yra elementai \(\infty\)  ir -\(\infty\). Šis rinkinys turi standartinį aritmenį rikiavimą \(\leq\) įskaitant faktą, jog -\(\infty\) \(\leq\) \(\infty\) kiekvienam x \(\in\) \textit{R}.
+Daugiausia šių sričių (sveikieji skaičiai, loginės reikšmės) yra standartinės ir nereikalauja paaiškinimo. \textit{Time} domeno sritis reikalauja specialaus traktavimo kadangi laiko reikšmės įtraukia dalinius elementus (angl. partial element). Ypač yra žinoma, jog laikas bent jau kažkokia reikšmė netgi nežinant galutinės reikšmės. Tiksliau laiko domeno sritį galima apibrėžti taip: tarkime \textit{R} yra rinkinys realių skaičių ir jame yra elementai \(\infty\)  ir -\(\infty\). Šis rinkinys turi standartinį aritmenį rikiavimą \(\leq\) įskaitant faktą, jog -\(\infty\) \(\leq\) \(\infty\) kiekvienam x \(\in\) \textit{R}.
 
-Dabar apibrėžkime laiką kaip \textit{Time} = \texit{R} + \textit{R}, kur elementai antrame rinkinyje \textit{R} yra atskiriami rikiaviu \(\geq\) (pavyzdžiui, \(\geq\) 42 skaitytume kaip "daugiau arba lygu 42". Tada galima apibrėžti \perp \textit{Time} =  \(\geq\)(-\(\infty\)) ir domeno srities (pavyzdžiui, informacijos) rikiavimą pagal laiką:
+Dabar apibrėžkime laiką kaip \textit{Time} = \texit{R} + \textit{R}, kur elementai antrame rinkinyje \textit{R} yra atskiriami pridėjus priešdėlį \(\geq\) (pavyzdžiui, \(\geq\) 42 skaitytume kaip ,,daugiau arba lygu 4''". Tada galima apibrėžti \perp_{Time} =  \(\geq\)(-\(\infty\)) ir domeno srities (pavyzdžiui, informacijos) rikiavimą pagal laiką\footnote{A \(\sqsubseteq\) B reiškia, jog kiekvienas aibės A elementas yra ir aibės B elementas''}:
 
 \begin{gather*}
 x \(\sqsubseteq\) x, \(\forall\)x \in R \\
@@ -192,7 +192,7 @@ x \(\sqsubseteq\) x, \(\forall\)x \in R \\
 \(\geq\)x \(\sqsubseteq\) \(\geq\) y if x \(\leq\) y, \(\forall\)x,y \in R
 \end{gather*} 
 
-Lengva pastebėti, jog \(\perp\)\textit{Time} yra apatinis elementas. Svarbu paminėti, jog \textit{y} yra tik bent viršutinė dalinių elementų rinkinio riba (angl. leat upper bound), kuri apytiksliai lygi:
+Lengva pastebėti, jog \(\perp\)_{Time} yra apatinis elementas. Svarbu paminėti, jog \textit{y} yra tik bent viršutinė dalinių elementų rinkinio riba (angl. least upper bound), kuri apytiksliai lygi:
 
 \begin{gather*}
 y = \sqcup\ \{ \geq\ \(\|\) x \leq\ y \}
@@ -276,7 +276,7 @@ sulėtina animaciją dvigubai.
 
 \begin{gather*}
 integral: VectorSpace\ \(\alpha\) \Rightarrow\ Behavior_{\alpha} \rightarrow\ Time \rightarrow\ Behavior_{\alpha} \\ 
-\textbf{at}[[integral b t_{0}]]t = [ \int_\(t_{0}\)^t \textbf{at}[[b]]]
+\textbf{at}[[integral\ b\ t_{0}]]t = [ \int_\(t_{0}\)^t\ \textbf{at}[[b]]]
 \end{gather*}
 
 	Integracija leidžia specifikuoti elgesio greitį, o naudojama du kartus pagreitį. Pavyzdžiui, judančio kamuoliuko greitis yra duotas kaip elgesys b (gali būti ir pastovus ir nepastovus), tada jo reliatyvi pozicija laiko pradžios atžvilgiu \(t_{0}\)\ yra duota kaip \textit{integral b \(t_{0}\)}. Tai leidžia natūraliai išreikšti fizika paremtas animacijas.
