@@ -50,7 +50,7 @@ Semantinė domeno sritis - kalbos konstruktų formalizavimas į matematinius obj
 
 Daugiausia šių sričių (sveikieji skaičiai, loginės reikšmės) yra standartinės ir nereikalauja paaiškinimo. \textit{Time} domeno sritis reikalauja specialaus traktavimo kadangi laiko reikšmės įtraukia dalinius elementus (angl. partial element). Ypač yra žinoma, jog laikas bent jau kažkokia reikšmė netgi nežinant galutinės reikšmės. Tiksliau laiko domeno sritį galima apibrėžti taip: tarkime \textit{R} yra rinkinys realių skaičių ir jame yra elementai \(\infty\)  ir -\(\infty\). Šis rinkinys turi standartinį aritmenį rikiavimą \(\leq\) įskaitant faktą, jog -\(\infty\) \(\leq\) \(\infty\) kiekvienam x \(\in\) \textit{R}.
 
-Dabar apibrėžkime laiką kaip \textit{Time} = \texit{R} + \textit{R}, kur elementai antrame rinkinyje \textit{R} yra atskiriami pridėjus priešdėlį \(\geq\) (pavyzdžiui, \(\geq\) 42 skaitytume kaip ,,daugiau arba lygu 4''". Tada galima apibrėžti \perp_{Time} =  \(\geq\)(-\(\infty\)) ir domeno srities (pavyzdžiui, informacijos) rikiavimą pagal laiką\footnote{A \(\sqsubseteq\) B reiškia, jog kiekvienas aibės A elementas yra ir aibės B elementas''}:
+Dabar apibrėžkime laiką kaip \textit{Time} = \texit{R} + \textit{R}, kur elementai antrame rinkinyje \textit{R} yra atskiriami pridėjus priešdėlį \(\geq\) (pavyzdžiui, \(\geq\) 42 skaitytume kaip ,,daugiau arba lygu 4''". Tada galima apibrėžti \perp_{Time} =  \(\geq\)(-\(\infty\)) ir domeno srities (pavyzdžiui, informacijos) rikiavimą pagal laiką\footnote{A \(\sqsubseteq\) B reiškia, jog kiekvienas aibės A elementas yra ir aibės B elementas}:
 
 \begin{gather*}
 x \(\sqsubseteq\) x, \(\forall\)x \in R \\
@@ -58,7 +58,7 @@ x \(\sqsubseteq\) x, \(\forall\)x \in R \\
 \(\geq\)x \(\sqsubseteq\) \(\geq\) y if x \(\leq\) y, \(\forall\)x,y \in R
 \end{gather*} 
 
-Lengva pastebėti, jog \(\perp\)_{Time} yra tikrai apatinis elementas. Svarbu paminėti, jog \textit{y} yra tik bent viršutinė dalinių elementų rinkinio riba (angl. least upper bound), kuri apytiksliai lygi:
+Lengva pastebėti, jog $\perp_{Time}$ yra tikrai apatinis elementas. Svarbu paminėti, jog \textit{y} yra tik bent viršutinė dalinių elementų rinkinio riba (angl. least upper bound), kuri apytiksliai lygi:
 
 \begin{gather*}
 y = \sqcup\ \{ \geq\ \(\|\) x \leq\ y \}
