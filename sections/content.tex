@@ -2,13 +2,13 @@
 
 \subsubsection{Įvadas}
 
-Pagrindinė funkcinio programavimo abstrakcija yra funkcija, kuri priima tam tikrą įvestį, o jos rezultatas yra tam tikrą išvestis. Funkcijos įvestis bei rezultatas gali būti kita funkcija. Funkcinėje programavimo kalboje funkcijos yra pirmos eilės reikšmės.
+Pagrindinė funkcinio programavimo abstrakcija yra funkcija, kuri priima tam tikrą įvestį, o jos rezultatas yra tam tikra išvestis. Funkcijos įvestis bei rezultatas gali būti kita funkcija. Funkcinėje programavimo kalboje funkcijos yra pirmos eilės reikšmės.
 
 Priešingai, labiau populiarus imperatyvaus programavimo modelis priima sakinius arba veiksmus kaip pirminius programos konstravimo blokus, kurie modifikuoja būseną. Tokios programos turi nuoseklų kontrolės srautą ir reikalauja samprotavimo apie pašalinius efektus. Iš prigimties jie yra atsparūs kompoziciniam samprotavimui.
 
-Netgi funkcinėse programavimo kalbose, reaktyvios programos yra paprastai parašytos imperatyviu stiliumi, naudojant žemo lygio bei ne paruoštų komponentų abstrakcijas įskaitant atgalinius skambintojus arba objektu paremtais įvykių dorokliais. Tai pririša modelį prie interaktyvumo prie žemo lygio realizacijos detalių tokių kaip laikas bei įvykių apdorojimo modeliai.
+Netgi funkcinėse programavimo kalbose, reaktyvios programos yra paprastai parašytos imperatyviu stiliumi, naudojant žemo lygio bei ne paruoštų komponentų abstrakcijas įskaitant atgalinius skambintojus arba objektu paremtais įvykių dorokliais. Tai pririša interaktyvumo modelį prie prie žemo lygio realizacijos detalių tokių kaip laikas bei įvykių apdorojimo modeliai.
 
-Anot \cite{Survey}, funkcinis reaktyvus programavimas, toliau vadinamas tiesiog FRP reiškia, jog modelis turi išlaikyti funkcinio protamavimo charakteristikas (pavyzdžiui, primityvios kalbos konstrukcijos turi likti pirmosios klasės) įtraukiant reaktyvumą į kalbos modelį. Funkcinis-reaktyvus programavimas yra būdas modeliuoti reaktyvų - besikeičiančius laiko tekmėje bei reaguojančius į išorinį stimulą - elgesį visiškai funkcinėse programavimo kalbose. FRP leidžia deklaratyviu ir paprastu būdu modeliuoti sistemas, kurios turi reaguoti į duomenis bėgant laikui.
+Anot \cite{Survey}, funkcinis reaktyvus programavimas, toliau vadinamas tiesiog FRP reiškia, jog modelis turi išlaikyti funkcinio programavimo charakteristikas (pavyzdžiui, primityvios kalbos konstrukcijos turi likti pirmosios klasės) įtraukiant reaktyvumą į kalbos modelį. Funkcinis-reaktyvus programavimas yra būdas modeliuoti reaktyvų (besikeičiantis laiko tekmėje bei reaguojantis į išorinį stimulą) elgesį visiškai funkcinėse programavimo kalbose. FRP leidžia deklaratyviu ir paprastu būdu modeliuoti sistemas, kurios turi reaguoti į duomenis bėgant laikui.
 
 \subsubsection{Pagrindinis tikslas}
 
@@ -57,13 +57,13 @@ Anot anksčiausios funkcinio-reaktyvaus programavimo formuluotės \cite{ElliottH
 %%%%%%%%%%%%%%%PRIVALUMAI IR ESME START
 
 
-\subsubsection{Modeliavimo privalumai lyginant su prezentacijos detales}
+\subsubsection{Modeliavimo privalumai lyginant su žemo lygio prezentacijos detalėmis}
 
-Anot \cite{ElliottHudak97:Fran} Modeliavimo privalumai prieš prezentacijos detales yra panašūs į funkcinės (arba galima sakyti deklaratyvios) programavimo kalbos paradigmą ir apima aiškumą, kūrimo lengvumą, komponavimą ir švarią semantiką. Be šių yra programai būdingų privalumų, tam tikrais atvejais patrauklesnių iš programinės įrangos kūrėjos bei galutinio vartotojo perspektyvos. Šie privaluai apima:
+Anot \cite{ElliottHudak97:Fran} modeliavimo privalumai prieš prezentacijos detales (pavyzdžiui nuotraukos pozicijos valdymas cikle) yra panašūs į funkcinės (arba galima sakyti deklaratyvios) programavimo kalbos paradigmą ir apima aiškumą, kūrimo lengvumą, komponavimą ir švarią semantiką. Be šių yra programai būdingų privalumų, tam tikrais atvejais patrauklesnių iš programinės įrangos kūrėjo bei galutinio vartotojo perspektyvos. Šie privaluai apima:
 
 \begin{itemize}
 
-	\item Kūrimas - turinio kūrimo sistemos natūraliai konstruoja modelius, nes šių sistemų galutinis vartotojas mąsto modelio terminais ir paprasta neturi nei noro nei patirties programavimo prezentacijos detalėse.
+	\item Kūrimas - turinio kūrimo sistemos natūraliai konstruoja modelius, nes šių sistemų galutinis vartotojas mąsto modelio terminais ir paprastai neturi nei noro nei patirties programavimo prezentacijos detalėse.
 
 	\item Optimizuojamumas - modeliu paremtos sistemos turi prezentacijos subsistemą, kuri gali atvaizduoti bet kokį modelį, kuris gali būti sukurtas sistemoje. Egzistuoja daug galimybių optimizacijai, nes aukšto lygio informacijos detalės yra prieinamos prezentacijos subsistemai.
 
@@ -91,12 +91,12 @@ Yra keturios pagrindinės modeliavimo idėjos \cite{ElliottHudak97:Fran}:
 
 \begin{lstlisting}
 	colorCycle t0 =
-		red 'untilB' 1bp t0 *=> \\t1 ->
-		green 'untilB' 1bp t0 *=> \\t1 ->
+		red 'untilB' 1bp t0 *=> \t1 ->
+		green 'untilB' 1bp t1 *=> \t2 ->
 		colorCycle t2
 \end{lstlisting}
 
-	\item Polimorfinė medija. Laike besikeičiančių medijų (nuotraukos, video, garsas, 3D grafika) įvairovė ir šių tipų parametrai (erdvinės transformacijos, spalvos, taškai, vektoriai, skaičiai) turi savo pačių specialiai tipui opecijas (pavyzdžiui, nuotraukų sukimas, garso maišymas, skaitmeninė sudėtis), tačiau sutelpa į bendrinį elgesio ir reaktyvumo karkasą. Pavyzdžiui, 'untilB' operaciją naudojama prieš tai yra polimorfinė, tinkanti bet kuriai laike beisikeičiančiai reikšmei.
+	\item Polimorfinė medija. Laike besikeičiančių medijų (nuotraukos, video, garsas, 3D grafika) įvairovė ir šių tipų parametrai (erdvinės transformacijos, spalvos, taškai, vektoriai, skaičiai) turi savo pačių specialiai tipui skirtas operacijas (pavyzdžiui, nuotraukų sukimas, garso maišymas, skaitmeninė sudėtis), tačiau sutelpa į bendrinį elgesio ir reaktyvumo karkasą. Pavyzdžiui, 'untilB' operaciją naudojama prieš tai yra polimorfinė, tinkanti bet kuriai laike beisikeičiančiai reikšmei.
 
 \end{itemize}
 
@@ -106,7 +106,7 @@ Yra keturios pagrindinės modeliavimo idėjos \cite{ElliottHudak97:Fran}:
 
 \subsubsection{Skirtingi požiūriai}
 
-Anot \cite{Survey}, egzistuoja du bendri požiūriai į FRP yra:
+Anot \cite{Survey}, egzistuoja du bendri požiūriai į FRP:
 
 \begin{itemize}
 
@@ -129,23 +129,23 @@ Kai šie du tipų konstruktoriai yra tiesiogiai išreikšti, sistema yra žinoma
 
 \subsubsection{Klasikinio FRP istorija}
 
-Klasikinis FRP buvo originaliai parašytas kaip Fran (Funkcininė reaktyvi animacija) \cite{ElliottHudak97:Fran}. Fran yra karkasas, skirtas deklaratyviai specifikuoti interaktyvias animacijas. Fran atvaizduoja elgesį kaip dvi pavyzdines funkcijas, vieną nuo laiko iki reikšmės ir kitą nuo laiko intervalo (apatinė ir viršutinė laiko riba) iki reikšmės intervalo ir naujo elgesio. Įvykiai atvaizduojami kaip "tobulėjančios reikšmės", kurios imant su laiku pagamina žemesnią laiko ribą kitam atvejui, arba kitą įvykį jeigu jis iš tikrųjų įvyko.
+Klasikinis FRP buvo originaliai parašytas kaip Fran (Funkcininė reaktyvi animacija) \cite{ElliottHudak97:Fran}. Fran yra karkasas, skirtas deklaratyviai specifikuoti interaktyvias animacijas. Fran atvaizduoja elgesį kaip dvi funkcijas, vieną nuo laiko iki reikšmės ir kitą nuo laiko intervalo (apatinė ir viršutinė laiko riba) iki reikšmės intervalo ir naujo elgesio. Įvykiai atvaizduojami kaip ,,tobulėjančios reikšmės'', kurios imant su laiku pagamina žemesnią laiko ribą kitam atvejui, arba kitą įvykį jeigu jis iš tikrųjų įvyko.
 
 Pirmoji FRP realizacija ne Haskell kalboje buvo Frappe \cite{Courtney:2001:FFR:645771.667929}, realizuota naudojantis Java Beans karkasu. Frappe yra sukurta remiantis įvykių supratimu bei Beans karkaso susietomis sąvybėmis (bound properties) teikiant abstrakčias sąsajas FRP įvykiams ir elgesiui bei kombinatorius kaip konkrečias klases, realizuojančias šias sąsajas. 
 
 \subsubsection{Dabartinės klasikinės FRP sistemos}
 
-FrTime \cite{Ignatoff:2006:CSL:2100071.2100097} kalba išplečia Scheme skaičiuoklį nepastoviu priklausomybių grafu, kuris yra sukonstruojamas įvertinus programą. Signalų pasikeitimai atnaujina šį grafą. FrTime nesuteikia atskirų įvykių sąvokų ir pasirenka priklausomybių grafo šakas naudojant sąlyginį elgesio įvertinimą, o ne elgesio pakeitimą, naudojamą FRP sistemų.
+FrTime \cite{Ignatoff:2006:CSL:2100071.2100097} kalba išplečia Scheme transliatorių nepastoviu priklausomybių grafu, kuris yra sukonstruojamas įvertinus programą. Signalų pasikeitimai atnaujina šį grafą. FrTime nesuteikia atskirų įvykių sąvokų ir pasirenka priklausomybių grafo šakas naudojant sąlyginį elgesio įvertinimą, o ne elgesio pakeitimą, naudojamą FRP sistemų.
 
-Reactive \cite{Elliott:2009:PFR:1596638.1596643} sistema yra dvitaktė (angl. push-pull) funkcinio reaktyvaus programavimo sistema su pirmos klasės elgesiu bei įvykiais. Pirminė Reactive įžvalga yra reaktyvumo (arba kitaip atsako pasikeitimai į įvykius, kurių atsitikimo laikas negalėjo būti žinomas prieš tai) ir laiko priklausomybės atskyrimas. Tai duoda kelią reaktyviąjai normalinėj formai, kuri atvaizduoja elgesį kaip konstantą arba paprastai priklausančią nuo laiko reikšmę, kartu su įvykių srauto nešamomis reikšmėmis, kurios irgi yra reaktyvios normalinės formos elgesys. Stūmimu (angl. push) paremtas įverinimas yra pasiekiamas šakojant Haskell gijas, jog būtų įvertintas galvos elgesys kol yra laukiama įvykių srauto įvertinimo. Įvykus įvykiui, dabartinio elgesio gija yra nužudoma ir sukuriama nauja gija įvertinti naują elgesį. Deja Reactive realizacija naudoja nepatvarią techniką, kuri priklauso nuo gijų šakojimosi įvertinant dvi Haskell reikšmes lygiagrečiai, kad būtų galima realizuoti įvykių sujungimą. Tai priklauso nuo bibliotekos autoriaus, kad būtų galima užtikrinti darną kai naudojama ši technika ir priveda prie gijų nuotėkio kai vienas iš sujungtų įvykių yra įvykių sujungimo rezultatas.
+Reactive \cite{Elliott:2009:PFR:1596638.1596643} sistema yra dvitaktė (angl. push-pull) funkcinio reaktyvaus programavimo sistema su pirmos klasės elgesiu bei įvykiais. Pirminė Reactive įžvalga yra reaktyvumo (arba kitaip atsako pasikeitimai į įvykius, kurių atsitikimo laikas negalėjo būti žinomas prieš tai) ir laiko priklausomybės atskyrimas. Tai duoda kelią reaktyviąjai normalinėj formai, kuri atvaizduoja elgesį kaip konstantą arba paprastai priklausančią nuo laiko reikšmę, kartu su įvykių srauto nešamomis reikšmėmis, kurios irgi yra reaktyvios normalinės formos elgesys. Stūmimu (angl. push) paremtas įvertinimas yra pasiekiamas šakojant Haskell gijas, jog būtų įvertintas galvos elgesys kol yra laukiama įvykių srauto įvertinimo. Įvykus įvykiui, dabartinio elgesio gija yra nužudoma ir sukuriama nauja gija įvertinti naują elgesį. Deja Reactive realizacija naudoja nepatvarią techniką, kuri priklauso nuo gijų šakojimosi įvertinant dvi Haskell reikšmes lygiagrečiai, kad būtų galima realizuoti įvykių sujungimą. Tai priklauso nuo bibliotekos autoriaus, kad būtų galima užtikrinti darną kai naudojama ši technika ir priveda prie gijų nuotėkio kai vienas iš sujungtų įvykių yra įvykių sujungimo rezultatas.
 
-Evan Czaplicki \cite{Czaplicki:2013:AFR:2499370.2462161} aprašo Elm - autonominią kalbą reaktyvumui. Elm suteikia kombinatorius manipuliuoti diskrečiais įvykiais ir kompiliuojasi į Javascript kalbą, kas padaro tai naudinga kliento pusės web programavimui. Tačiau Elm nesuteikia perjungimo arba besitęsiančio laiko elgesio, nors suderinimas yra pateikiamas naudojant diskretaus laiko įvykius, kurie yra sužadinami pasikartojančiais intervalais, specifikuotais apibrėžiant įvykį. Tezė teigia, jog Arrowized FRP (signalų-funkcijų FRP) gali būti integruota į Elm, bet suteikia pažai paramos šiam teiginiui.
+Evan Czaplicki \cite{Czaplicki:2013:AFR:2499370.2462161} aprašo Elm - autonominę kalbą reaktyvumui. Elm suteikia kombinatorius manipuliuoti diskrečiais įvykiais ir kompiliuojasi į Javascript kalbą, kas padaro tai naudinga kliento pusės web programavimui. Tačiau Elm nesuteikia perjungimo arba besitęsiančio laiko elgesio, nors suderinimas yra pateikiamas naudojant diskretaus laiko įvykius, kurie yra sužadinami pasikartojančiais intervalais, specifikuotais apibrėžiant įvykį. Tezė teigia, jog Arrowized FRP (signalų-funkcijų FRP) gali būti integruota į Elm, bet suteikia mažai paramos šiam teiginiui.
 
 Reactive-banana\footnote{http://hackage.haskell.org/package/reactive-banana} biblioteka yra dvitaktė (angl. push-pull) FRP sistema sukurta naudoti su Haskell GUI karkasu. Visų pirma, ji charakterizuoja monadą elgesio ir įvykių kūrimui, kuri gali būti komponuojama bei įvertinama. Ši monada apima konstrukcijas GUI bibliotekos konstrukcijų pririšimui prie primityvių įvykių. Ji privalo būti įkomponuojama į Haskell IO veiksmą įvertinimui įvykti. Reactive-banana realizacija yra panaši į FrTime - naudojant priklausomybių grafą tinklo atnaujinimui įvykus įvykiui. Reactive-banana taip pat kaip Frtime vengia apibendrinto perjungimo vietoje elgesio reikšmių šakojimosi funkcijų, bet išlaiko elgesio ir įvykių atskyrimo. Užuot apibendrinto perjungimo kombinatoriaus, kuris leidžia pakeisti sutartinį elgesį, reactive-banana suteikia žingsninį kombinatorių, kuris pažingsniui sukuria elgesį iš įvykio srauto reikšmių.
 
 \subsubsection{Signalo funkcijos FRP}
 
-Alternatyvus FRP būdas pirmą kartą pasiūlytas darbe apie Fruit \cite{Courtney01genuinelyfunctional}. Fruit yra biblioteka, skirta deklaratyviam GUI specifikavimui. Biblioteka naudoja rodyklės[9] sąvoką signalo-funkcijos abstrakcijai. Rodyklės yra abstraktaus tipo konstruktoriai su įvesties ir išvesties tipo parametrais kartu su rinkiniu maršruto parinkimo kombinatorių. Tai demonstruojama \ref{arrow_combinators}. Rodyklės idėja Haskell kalboje, įskaitant rodyklių kombinatorių aksiomas, kurias turi tenkinti, yra išvesti iš rodyklių sąvokų iš kategorijų teorijos.
+Alternatyvus FRP būdas pirmą kartą pasiūlytas darbe apie Fruit \cite{Courtney01genuinelyfunctional}. Fruit yra biblioteka, skirta deklaratyviam GUI specifikavimui. Biblioteka naudoja rodyklės sąvoką signalo-funkcijos abstrakcijai. Rodyklės yra abstraktaus tipo konstruktoriai su įvesties ir išvesties tipo parametrais kartu su rinkiniu maršruto parinkimo kombinatorių. Tai demonstruojama \ref{arrow_combinators}. Rodyklės idėja Haskell kalboje, įskaitant rodyklių kombinatorių aksiomas, kurias turi tenkinti, yra išvesti iš rodyklių sąvokų iš kategorijų teorijos.
 
 \begin{lstlisting}[caption=- rodyklių kombinatoriai, label=arrow_combinators]
 	(>>>) :: (Arrow a) => a b c -> a c d -> a b d
@@ -160,7 +160,7 @@ Signalų funkcijos yra nuo laiko priklausančios ir įvykių bei elgesio reaktyv
 
 Panašiai kaip ir FrTime, Netwire\footnote{http://hackage.haskell.org/ package/netwire-3.1.0} biblioteka vengia dinaminio perjungimo, šiuo atveju dėl signalo slopinimo. Netwire yra parašyta kaip rodyklės tranformatorius. Signalo slopinimas yra įgyvendintas padarant signalo funkcijų išvestį monoidu ir tada sujungiant signalo funkcijų išvestis. Prislopinta signalo funkcija pagamina monoido nulį (monoid's zero) kaip išvestį. Primityvai apibrėžia elgesio slopinimą ir sukomponuotos signalo funkcijos slopina jeigu jų išvestis dera su monoido nuliu.
 
-Yampa \cite{Nilsson:2005:DOF:1090189.1086374} yra rodyklyzuotos FRP sistemos optimizacija, pirmą kartą panaudota Fruit. Yampa realizacija naudoja Generalized Algebraic Datatypes, kad leistų daug didesnę saugaus tipo duomenų tipų klasę signalo funkcijos reprezentaijai. Šis atvaizdavimas kartu su "išmaniais" konstruktoriais ir kombinatoriais suteikia galimybė konstruoti rodyklizuotą FRP sistemą, kuri optimizuoja pati save. Deja pagrindinis neefektyvumas yra nereikalingi įvertinimo žingsniai dėl traukimu paremto (angl. pull-based) įvertinimo. Optimizacija yra speciali ir kieviena nauja optimizacija reikalauja naujų konstruktorių pridėjimo, taip pat kiekvieno primityvaus kombinatoriaus atnaujinimo kiekvienai konstruktorio kombinacijai palaikyti. Tačiau Yampa parodo aiškų efektyvumo privalumą lyginant su prieš tai aprašytomis rodyklizuotomis FRP realizacijomis.
+Yampa \cite{Nilsson:2005:DOF:1090189.1086374} yra rodyklyzuotos FRP sistemos optimizacija, pirmą kartą panaudota Fruit. Yampa realizacija naudoja Generalized Algebraic Datatypes, kad leistų daug didesnę saugaus tipo duomenų tipų klasę signalo funkcijos reprezentaijai. Šis atvaizdavimas kartu su ,,išmaniais'' konstruktoriais ir kombinatoriais suteikia galimybę konstruoti rodyklizuotą FRP sistemą, kuri optimizuoja pati save. Deja pagrindinis neefektyvumas yra nereikalingi įvertinimo žingsniai dėl traukimu paremto (angl. pull-based) įvertinimo. Optimizacija yra speciali ir kieviena nauja optimizacija reikalauja naujų konstruktorių pridėjimo, taip pat kiekvieno primityvaus kombinatoriaus atnaujinimo kiekvienai konstruktorio kombinacijai palaikyti. Tačiau Yampa parodo aiškų efektyvumo privalumą lyginant su prieš tai aprašytomis rodyklizuotomis FRP realizacijomis.
 
 PhD tezė \cite{Sculthorpe11towardssafe} pristatė N-Ary FRP - techniką tipizuojant rodyklizuotas FRP sistemas naudojant priklausomus tipus. Didžioji dalis darbo sudarė priklausomų tipų sistemos korektiškumo įrodymas. Šis darbas pristatė signalų vektorius, tipizuotą konstruktorių, kuris leidžia elgesio bei įvykių atskyrimą FRP sistemos lygyje vietoje įvykių laikymo tik specialiu elgesio tipu.
 
@@ -208,7 +208,7 @@ Galiausiai apibrėžimą galima išplėsti aritmetiniui operatoriui \(\leq\) vis
 x \(\leq\) _\(\geq\)y if x \leq y
 \end{gather*}
 
-Tai gali būti skaitoma kaip: "Laikas x yra mažesnis arba lygus laikui, kuris yra bent y jeigu x mažiau arba lygu y". Lengva parodyti, jog ši išplėsta tipo \textit{Time} \(\rightarrow\) \textit{Time} \(\rightarrow\) \textit{Bool} funkcija yra tolydi atsižvelgiant į \(\sqsubseteq\).
+Tai gali būti skaitoma kaip: ,,Laikas x yra mažesnis arba lygus laikui, kuris yra bent y jeigu x mažiau arba lygu y''. Lengva parodyti, jog ši išplėsta tipo \textit{Time} \(\rightarrow\) \textit{Time} \(\rightarrow\) \textit{Bool} funkcija yra tolydi atsižvelgiant į \(\sqsubseteq\).
 
 \paragraph{Semantinės funkcijos}
 
@@ -241,7 +241,7 @@ time: Behavior_{Time} \\
 
 	Šiuo atveju \textbf{at}[[time]]t = t yra tik \textit{Time} tapatumo funkcija.
 
-	\item \textbf{Pakėlimas\footnote{Praktikoje pakėlimas yra reikalingas gana dažnai, todėl būtų nepatogu visur kelti išreikštinai. Vietoje to pageidautina naudoti žinomus vardus, tokius kaip: "sin", "cos", "+", "*"\ ir netgi literalus, tokius kaip "3"\ arba "mėlynas"\ nurodant pakeltas versijas. Pavyzdžiui, literalas "42"\ turėtų elgtis kaip nekintantis elgesys "\(lift_{0}\) 42", o sudėtis "b_{1}\ + b_{2}"\ - "\(lift_{2}\) (+)\ \(b_{1}\) \(b_{2})"}} (angl. lifting) - įprastas būdas funkcijoms, apibrėžiančioms nekintančias reikšmes, "pakelti" į analogines funkcijas, apibrėžtoms elgesiu. Pakėlimas yra įvykdomas naudojant (konceptualiai begalinę) šeimą operatorių - vieną keikvienam funkcijos valentingumui (angl. arity).
+	\item \textbf{Pakėlimas\footnote{Praktikoje pakėlimas yra reikalingas gana dažnai, todėl būtų nepatogu visur kelti išreikštinai. Vietoje to pageidautina naudoti žinomus vardus, tokius kaip: ,,sin'', ,,cos'', ,,+'', ,,*''\ ir netgi literalus, tokius kaip ,,3''\ arba ,,mėlynas''\ nurodant pakeltas versijas. Pavyzdžiui, literalas ,,42''\ turėtų elgtis kaip nekintantis elgesys ,,$lift_{0}$\ 42'', o sudėtis ,,$b_{1}$ + $b_{2}$''\ kaip ,,$lift_{2}$ (+)\ $b_{1}$ $b_{2}$''}} (angl. lifting) - įprastas būdas funkcijoms, apibrėžiančioms nekintančias reikšmes, ,,pakelti'' į analogines funkcijas, apibrėžtoms elgesiu. Pakėlimas yra įvykdomas naudojant (konceptualiai begalinę) šeimą operatorių - vieną keikvienam funkcijos valentingumui (angl. arity).
 
 \begin{gather*}
 lift_{n} : ( \alpha_{1} \rightarrow\ ... \rightarrow\ \alpha_{n} \rightarrow\ \beta ) \rightarrow\
@@ -297,135 +297,123 @@ untilB : Behavior_{\alpha} \rightarrow\ Event_{Behavior_{\(\alpha)}} \rightarrow
 
 	\item \textbf{Įvykių apdorojimas}. Norint duoti pavyzdį naudojant specialią rūšį įvykių, pirmiausia reikia apibrėžti įvykių apdorotojus, kurie yra pritaikomi laikui ir su įvykiu susietiem duomenim naudojant šį operatorių:
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.75]{pics/1.png}
-	\label{pic:1}
-\end{figure}
+\begin{gather*}
+(+$\Rightarrow$) : Event_{\alpha} = (Time \rightarrow \alpha \rightarrow \beta) \rightarrow Event_{\beta}\\
+\textbf{occ}[[e +$\Rightarrow$ f]] = (t_{e}, f\ t_{e}\ x)\\
+\textbf{where}\ (t_{e},x) = \textbf{occ}[[e]]
+\end{gather*}
 
 	Patogumui galima naudoti šias išvestas operacijas, kurios ignoruoja laiką arba informaciją arba abu kartu:
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.75]{pics/2.png}
-	\label{pic:2}
-\end{figure}
+\begin{gather*}
+(=$\Rightarrow$) : Event_{\alpha} \rightarrow (\alpha \rightarrow \beta) \rightarrow Event_{\beta}\\
+(*$\Rightarrow$) : Event_{\alpha} \rightarrow (Time \rightarrow \beta) \rightarrow Event_{\beta}\\
+(-$\Rightarrow$) : Event_{\alpha} \rightarrow \beta \rightarrow Event_{\beta}\\
+ev =\Rightarrow g = ev\ +\Rightarrow \lambda t\ x.\ g\ x\\
+ev *\Rightarrow h = ev\ +\Rightarrow \lambda t\ x.\ h\ t\\
+ev -\Rightarrow x' = ev\ +\Rightarrow \lambda x.\ x'
+\end{gather*}
 
 	(+$\Rightarrow$) gauna visus parametrus, (-$\Rightarrow$)  negauna parametrų, (*$\Rightarrow$) gauna tik laiką, o ($\Longrightarrow$) gauna tik informaciją.
 
 	\item \textbf{Nekintantys įvykiai}. Paprasčiausia įvykių rūšis yra tiesiogiai specifikuoti pagal laiką ir reikšmę.
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.75]{pics/3.png}
-	\label{pic:3}
-\end{figure}
+\begin{gather*}
+constEv : Time \rightarrow \alpha \rightarrow Event_{\alpha}\\
+\textbf{occ}[[constEv\ t_{e}\ x]] = (t_{e},x)
+\end{gather*}
 
 	Nors, pavyzdžiui, elgesys:
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.75]{pics/4.png}
-	\label{pic:4}
-\end{figure}
+\begin{gather*}
+b_{1}\ untilB\ (constEv\ 10\ x) -$\Rightarrow$ b_{2}
+\end{gather*}
 
 	parodo elgesį \(b_{1}\) iki laiko taško 10, kuriame jis pradeda rodyti elgesį \(b_{2}\) (x yra ignoruojamas šiame pavyzdyje, bet iš tikro neturėtų).
 
 	\item \textbf{Išoriniai įvykiai}. Išoriniai įvykiai yra pavyzdžiui pelės mygtuko paspaudimas, kuris gali būti kairysis arba dešinysis mygtukas. Reikšmė, asocijuota su kurio nors mygtuko paspaudimu yra interpretuojama kaip atleidimo įvykis, kuris grąžina vienetinę reikšmę (() yra vieneto tipas):
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.75]{pics/5.png}
-	\label{pic:5}
-\end{figure}
+\begin{gather*}
+lbp, rbp : Time \rightarrow Event_{Event_{()}}
+\end{gather*}
 
 	Įvykio \textit{lbp \(t_{0}\)} prasmė, pavyzdžiui, yra pora (\(t_{e}\), e), tokia kad \(t_{e}\) yra pirmojo kairio mygtuko paspaudimas po laiko \(t_{0}\) ir \textit{e} yra įvykis, reiškiantis pirmojo kairiojo mygtuko atleidimą po laiko \(t_{e}\). Iš to seka, jog:
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.75]{pics/6.png}
-	\label{pic:6}
-\end{figure}
+\begin{gather*}
+b_{1}\ untilB\ (lbp, t_{0}) =$\Rightarrow$ \lambda e.\\
+b_{2}\ untilB\ e (-\Rightarrow) \\
+b_{3}
+\end{gather*}
 
 	parodo elgesį \(b_{1}\) iki kairiojo mygtuko paspaudimo, kurio metu jis tampa \(b_{2}\) kol kairysis mygtukas yra atleistas, o tada tampa \(t_{3}\).
 
 	\item \textbf{Predikatai}. Natūralus būdas specifikuoti tam tikrus įvykius kaip pirmąjį laiką kada loginės reikšmės elgesys tampa tiesa (\textit{true}) po duoto laiko:
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.75]{pics/7.png}
-	\label{pic:7}
-\end{figure}
+\begin{gather*}
+predicate : Behavior_{Bool} \rightarrow Time \rightarrow Event_{()}\\
+\textbf{occ}[[predicate\ b\ t_{0}]] = (inf\ \{t > t_{0}\ |\ \textbf{at}[[b]]t\}, ())
+\end{gather*}
 
 	Predikato įvykio laikas yra begalinis ir sudarytas iš rinkinio laiko taškų didesnių tei \(t_{0}\), kuriuose elgesys yra teigiamas. Šis laikas gali būti ir \(t_{0}\).
 
 	Tada elgesys:
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.75]{pics/8.png}
-	\label{pic:8}
-\end{figure}
+\begin{gather*}
+b_{1}\ untilB\ (predicate\ (sin\ time = 0.5)\ t_{0}) -$\Rightarrow$ b_{2}
+\end{gather*}
 
  	parodo \(b_{1}\) iki pirmojo laiko taško t po \(t_{0}\), kur \textit{sin t} yra 0.5, po kurio jis parodo \(b_{2}\).
 
  	\item \textbf{Pasirinkimas}. Galima pasirinkti ankstesnįjį iš dviejų įvykių naudojantis operatoriumi .|.:
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.75]{pics/9.png}
-	\label{pic:9}
-\end{figure}
+\begin{gather*}
+(.|.) : Event_{\alpha} \rightarrow Event_{\alpha} \rightarrow Event_{\alpha}\\
+\textbf{occ}[[e\ .|.\ e']] = (t_{e},x), \textbf{if}\ t_{e} \leq t'_{e}\\
+				= (t'_{e}, x'),\ otherwise\\
+\textbf{where}\ (t_{e},x) = \textbf{occ}[[e]]\\
+\textbf{where}\ (t'_{e},x) = \textbf{occ}[[e']]
+\end{gather*}
 
 	Pavyzdžiui, elgesys:
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.75]{pics/10.png}
-	\label{pic:10}
-\end{figure}
+\begin{gather*}
+b_{1}\ untilB\ (lbp\ t_{0}\ .|.\ predicate\ (time > 5)\ t_{0}) -$\Rightarrow$\ b_{2}
+\end{gather*}
 
 	laukia kol arba bus nuspaustas kairysis mygukas arba praeis 5 sekundės prieš pakeičiant \(b_{1}\) elgesį į \(b_{2}\). Kaip alternatyva, sekantis pavyzdys pakeičia elgesį į \(b_{3}\) po skirto laiko pabaigos:
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.75]{pics/11.png}
-	\label{pic:11}
-\end{figure}
+\begin{gather*}
+b_{1}\ untilB\ (lbp\ t_{0}\ -$\Rightarrow$\ b_{2}\ .|.\ predicate\ (time > 5)\ t_{0}) -$\Rightarrow$\ b_{3}
+\end{gather*}
 
 	\item \textbf{Momentinė kopija}. Tuo momentu kai nutinka įvykis yra dažnai patogu padaryti elgesio reikšmės momentinę kopiją tam tikrame laiko taške. Tai formaliai galima užrašyti:
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.75]{pics/12.png}
-	\label{pic:12}
-\end{figure}
+\begin{gather*}
+snapshot : Event_{\alpha} \rightarrow Behavior_{\beta} \rightarrow Event_{\alpha \times \beta}\\
+\textbf{occ}[[e\ snapshot\ b]] = (t_{e}, (x, \textbf{at}[[b]]t_{e}))\\
+\textbf{where}\ (t_{e}, x) = \textbf{occ}[[e]]
+\end{gather*}
 
 	Pavyzdžiui, elgesys:
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.75]{pics/13.png}
-	\label{pic:13}
-\end{figure}
+\begin{gather*}
+b_{1}\ untilB\ (lbp\ t_{0}\ snapshot\ (sin\ time)) =$\Rightarrow$\ \lambda (e,y).\ b_{2}
+\end{gather*}
 
 	paima laiko, kai yra nuspaudžiamas kairysis mygtukas, sinusą, priskiria jį \textit{y} ir seka elgesiu \(b_{2}\), kuris galimai priklauso nuo \textit{y}. Nepaisant to, šį pavyzdį taip pat būtų galima realizuoti paimant kairiojo mygtuko paspaudimo įvykio laiką ir skaičiuojant sinusą, bendru atveju elgesio buvimas momentine kopija yra ganėtinai sudėtingas ir gali priklausyti nuo išorinių įvykių.
 
 	\item \textbf{Įvykių sekos} Kartais yra naudinga naudoti vieną įvykį, kad būtų galima sukurti kitą. Įvykis \textit{joinEv e} yra įvykio, kuris nutinka kai nutinka \textit{e'}, kur \textit{e'} yra \textit{e} reikšmės dalis:
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.75]{pics/14.png}
-	\label{pic:14}
-\end{figure}
+\begin{gather*}
+joinEv: Event_{Event_{\alpha}} \rightarrow Event_{\alpha}\\
+\textbf{occ}[[joinEv\ e]] = \textbf{occ}[[snd\ (\textbf{occ}[[e]])]]
+\end{gather*}
 
 	Pavyzdžiui, įvykis:
 
-\begin{figure}[H]
-	\centering
-	\includegraphics[scale=0.75]{pics/15.png}
-	\label{pic:15}
-\end{figure}
+\begin{gather*}
+joinEv\ (lbp\ t_{0}\ *\Rightarrow predicate\ (b = 0))
+\end{gather*}
 
 	nutinka pirmą kartą kai elgesys \textit{b} turi nulinę reikšmę po pirmojo kairiojo mygtuko paspaudimo po laiko tarpo \(t_{0}\).
 
@@ -433,7 +421,7 @@ untilB : Behavior_{\alpha} \rightarrow\ Event_{Behavior_{\(\alpha)}} \rightarrow
 
 \textbf{Panaudojimo pavyzdys}
 
-Remiantis primityvių kombinatorių pavyzdžiais elgesiui bei įvykiam kartu su jų formalia semantika, galima pateikti konkretų pavyzdį Haskell programavimo kalboje. \ref{sign} pateiktame pavyzdyje yra skaitine reikšme išreikštas elgesys, kurio pradinė reikšmė yra 0 ir tampa -1 jeigu yra nuspaustas kairys pelės mygtukas arba 1 jeigu yra nuspaustas dešinys pelės mygtukas.
+Remiantis primityvių kombinatorių pavyzdžiais elgesiui bei įvykiam kartu su jų formalia semantika, galima pateikti konkretų pavyzdį Haskell programavimo kalboje. \ref{sign} pateiktame pavyzdyje yra skaitine reikšme išreikštas elgesys, kurio pradinė reikšmė yra 0 ir tampa -1 jeigu yra nuspaustas kairys pelės mygtukas (lbp - left button pressed) arba 1 jeigu yra nuspaustas dešinys pelės mygtukas (rbp - right button pressed).
 
 \begin{lstlisting}[caption=- signalo funkcija nuo pelės mygtuko paspaudimo, label=sign]
 	bSign t0 =
@@ -462,7 +450,7 @@ Remiantis primityvių kombinatorių pavyzdžiais elgesiui bei įvykiam kartu su 
 
 Pagal \cite{Bass:2007:Mythbusters}, įvykių srautas yra eilė pagal laiką surikiuotų įvykių, pavyzdžiui akcijų rinkos srautas.
 
-Įvykių srautas kaip duomenų srauto tipas formaliai atrodo kaip pora (s, t), kur s yra seka surikiuotų sąrašo įvykių, o t yra seka laiko intervalų ir kiekvienas intervalas yra netuščias.
+Įvykių srautas kaip duomenų srauto tipas formaliai atrodo kaip pora (s, $\Delta$), kur s yra seka surikiuotų sąrašo įvykių, o $\Delta$ yra seka laiko intervalų ir kiekvienas $\Detlta$n > 0.
 
 Tokio duomenų srauto pavyzdžiai gali būti:
 
