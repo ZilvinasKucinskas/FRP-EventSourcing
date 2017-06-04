@@ -2,8 +2,6 @@
 [![Gem Version](https://badge.fury.io/rb/frp-eventsourcing.svg)](https://badge.fury.io/rb/frp-eventsourcing)
 [![Code Climate](https://codeclimate.com/github/ZilvinasKucinskas/FRP-EventSourcing/badges/gpa.svg)](https://codeclimate.com/github/ZilvinasKucinskas/FRP-EventSourcing)
 
-Will be released soon (2017 June) after testing out in sample application.
-
 # Frp-Eventsourcing
 
 EventSourcing describes current state as series of events that occurred in a system. Events hold all information that is needed to recreate current state. This method allows to achieve high volume of transactions, and enables efficient replication. Whereas reactive programming lets implement reactive systems in declarative style, decomposing logic into smaller, easier to understand components. The goal is to create reactive programming program interface, incorporating both principles. Applying reactive programming in event-sourcing systems enables modelling not only instantaneous events, but also have their history. Furthermore, it enables focus on the solvable problem, regardless of low level realization details. Reactive operators enable read model creation without exposing realization details of operations with data storage.
