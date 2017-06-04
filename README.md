@@ -77,7 +77,7 @@ account_stream = FrpEventsourcing::Stream.new(AccountCreated, MoneyDeposited, Mo
   as_persistent_type(Account, %i(account_id)).
   init(-> (state) { state.balance = 0 }).
   when(MoneyDeposited, -> (state, event) { state.balance += event[:data][:amount] }).
-  when(MoneyWithdrawn, -> (state, event) { state.balance += event[:data][:amount] })
+  when(MoneyWithdrawn, -> (state, event) { state.balance -= event[:data][:amount] })
 ```
 
 Instead of passing `lambda` directly, we can also use a variable to save and reuse `lambda`:
