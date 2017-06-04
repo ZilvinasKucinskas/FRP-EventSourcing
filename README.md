@@ -1,5 +1,6 @@
 [![Build Status](https://travis-ci.org/ZilvinasKucinskas/FRP-EventSourcing.svg?branch=master)](https://travis-ci.org/ZilvinasKucinskas/FRP-EventSourcing)
 [![Gem Version](https://badge.fury.io/rb/frp-eventsourcing.svg)](https://badge.fury.io/rb/frp-eventsourcing)
+[![Code Climate](https://codeclimate.com/github/ZilvinasKucinskas/FRP-EventSourcing/badges/gpa.svg)](https://codeclimate.com/github/ZilvinasKucinskas/FRP-EventSourcing)
 
 Will be released soon (2017 June) after testing out in sample application.
 
