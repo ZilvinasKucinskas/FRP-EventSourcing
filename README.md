@@ -13,6 +13,7 @@ EventSourcing describes current state as series of events that occurred in a sys
 * [The introduction to Reactive Programming you've been missing](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754)
 (by [@andrestaltz](https://twitter.com/andrestaltz))
 * [Lambda Jam 2015 - Conal Elliott - The Essence and Origins of Functional Reactive Programming](https://youtu.be/j3Q32brCUAI)
+* More [here](https://github.com/ZilvinasKucinskas/FRP-EventSourcing/tree/master/sources)
 
 ### EventSourcing
 
@@ -21,6 +22,7 @@ EventSourcing describes current state as series of events that occurred in a sys
 * GetEventStore - The open-source, functional database with Complex Event Processing in JavaScript. [Event Sourcing Basics](http://docs.geteventstore.com/introduction/3.9.0/event-sourcing-basics/)
 * [Martin Fowler - Retroactive Event](https://martinfowler.com/eaaDev/RetroactiveEvent.html)
 * [Akka Persistence module uses EventSourcing](http://doc.akka.io/docs/akka/snapshot/scala/persistence.html#event-sourcing)
+* More [here](https://github.com/ZilvinasKucinskas/FRP-EventSourcing/tree/master/sources)
 
 ## Installation
 
