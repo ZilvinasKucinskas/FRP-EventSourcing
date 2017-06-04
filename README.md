@@ -47,7 +47,7 @@ Or install it yourself as:
 Use provided task to generate a table to store events in your database.
 
 ```
-rails generate frp-eventsourcing:migration
+rails generate frp_eventsourcing:migration
 rake db:migrate
 ```
 
