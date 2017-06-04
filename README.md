@@ -28,7 +28,12 @@ Or install it yourself as:
 
 ### Generate EventStore event model
 
-TODO: make generator and write instructions
+Use provided task to generate a table to store events in your database.
+
+```
+rails generate rails_event_store_active_record:migration
+rake db:migrate
+```
 
 ### Event definitions
 
@@ -149,6 +154,7 @@ Easy-medium difficulty:
 Challenging:
 
 * Make mechanics for recreating read models after changes. We should reapply all associated events.
+* Use custom events repository + instructions how to change adapter for `FrpEventsourcing::EventRepository`
 
 ## Contributing
 
