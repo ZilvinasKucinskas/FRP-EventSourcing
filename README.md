@@ -6,9 +6,21 @@ Will be released soon (2017 June) after testing out in sample application.
 
 EventSourcing describes current state as series of events that occurred in a system. Events hold all information that is needed to recreate current state. This method allows to achieve high volume of transactions, and enables efficient replication. Whereas reactive programming lets implement reactive systems in declarative style, decomposing logic into smaller, easier to understand components. The goal is to create reactive programming program interface, incorporating both principles. Applying reactive programming in event-sourcing systems enables modelling not only instantaneous events, but also have their history. Furthermore, it enables focus on the solvable problem, regardless of low level realization details. Reactive operators enable read model creation without exposing realization details of operations with data storage.
 
-## Sources to learn more about Reactive Programming and EventSourcing
+## Sources to learn more about
 
-TODO:
+### (Functional) Reactive programming
+
+* [The introduction to Reactive Programming you've been missing](https://gist.github.com/staltz/868e7e9bc2a7b8c1f754)
+(by [@andrestaltz](https://twitter.com/andrestaltz))
+* [Lambda Jam 2015 - Conal Elliott - The Essence and Origins of Functional Reactive Programming](https://youtu.be/j3Q32brCUAI)
+
+### EventSourcing
+
+* [Martin Fowler - EventSourcing](http://martinfowler.com/eaaDev/EventSourcing.html)
+* Greg Young - CQRS documents
+* GetEventStore - The open-source, functional database with Complex Event Processing in JavaScript. [Event Sourcing Basics](http://docs.geteventstore.com/introduction/3.9.0/event-sourcing-basics/)
+* [Martin Fowler - Retroactive Event](https://martinfowler.com/eaaDev/RetroactiveEvent.html)
+* [Akka Persistence module uses EventSourcing](http://doc.akka.io/docs/akka/snapshot/scala/persistence.html#event-sourcing)
 
 ## Installation
 
