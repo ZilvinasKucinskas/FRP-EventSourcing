@@ -1,6 +1,6 @@
 module FrpEventsourcing
   class EventRepository
-    def initialize(adapter: ::Event)
+    def initialize(adapter: ::EventStoreEvent)
       @adapter = adapter
     end
     attr_reader :adapter

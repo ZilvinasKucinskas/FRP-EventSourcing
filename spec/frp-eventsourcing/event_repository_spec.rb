@@ -4,7 +4,7 @@ module FrpEventsourcing
   RSpec.describe EventRepository do
     specify 'initialize with adapter' do
       repository = EventRepository.new
-      expect(repository.adapter).to eq(::Event)
+      expect(repository.adapter).to eq(::EventStoreEvent)
     end
 
     specify 'provide own event implementation' do
