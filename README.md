@@ -31,7 +31,7 @@ Or install it yourself as:
 Use provided task to generate a table to store events in your database.
 
 ```
-rails generate rails_event_store_active_record:migration
+rails generate frp-eventsourcing:migration
 rake db:migrate
 ```
 
