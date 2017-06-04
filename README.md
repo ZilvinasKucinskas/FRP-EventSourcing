@@ -73,10 +73,10 @@ class MoneyWithdrawn < FrpEventsourcing::Event; end
 We can define stream that is creating read model once in our app. Keep in mind that no database operations are present here.
 
 ```
-account_stream = Cappuccino::Stream.new(AccountCreated, MoneyDeposited, MoneyWithdrawn).
+account_stream = FrpEventsourcing::Stream.new(AccountCreated, MoneyDeposited, MoneyWithdrawn).
   as_persistent_type(Account, %i(account_id)).
   init(-> (state) { state.balance = 0 }).
-  when(MoneyDeposited, -> (state, event) { state.balance += event[:data][:amount] })
+  when(MoneyDeposited, -> (state, event) { state.balance += event[:data][:amount] }).
   when(MoneyWithdrawn, -> (state, event) { state.balance += event[:data][:amount] })
 ```
 
